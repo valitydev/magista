@@ -33,9 +33,6 @@
               files="InvoiceSearchQueryTest.java"
               lines="0-9999"/>
     <suppress checks="LineLength"
-              files="EnrichedSearchQueryTest.java"
-              lines="0-9999"/>
-    <suppress checks="LineLength"
               files="ChargebackSearchQueryTest.java"
               lines="0-9999"/>
     <suppress checks="LineLength"
