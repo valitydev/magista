@@ -1,3 +1,4 @@
+[![Maven Deploy Artifact](https://github.com/valitydev/magista/actions/workflows/deploy.yml/badge.svg)](https://github.com/valitydev/magista/actions/workflows/deploy.yml)
 ## Magista query DSL
 
 Для формирования запросов к данным сервис предоставляет DSL в JSON формате, который основан на Elasticsearch [Query DSL](https://www.elastic.co/guide/en/elasticsearch/reference/current/_introducing_the_query_language.html). 
