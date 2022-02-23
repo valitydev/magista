@@ -150,7 +150,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>machinegun-proto</artifactId>
-            <version>1.25-4de3f11</version>
+            <version>1.27-dec518d</version>
         </dependency>
 
         <!--Test libs-->
