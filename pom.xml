@@ -14,7 +14,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>newway</name>
+    <name>magista</name>
     <description>Magista service (event statistics)</description>
 
     <properties>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>magista-proto</artifactId>
-            <version>1.27-787e0a5</version>
+            <version>1.30-27bba86</version>
         </dependency>
         <dependency>
             <groupId>dev.vality.woody</groupId>

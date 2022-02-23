@@ -18,9 +18,6 @@ spring:
   flyway:
     schemas: mst
 
-columbus:
-  url: http://columbus:8022/repo
-
 retry-policy:
   maxAttempts: -1
 
@@ -103,3 +100,4 @@ testcontainers:
     tag: '11.4'
   kafka:
     tag: '6.2.0'
+
