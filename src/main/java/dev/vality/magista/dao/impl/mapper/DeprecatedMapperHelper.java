@@ -345,7 +345,7 @@ public class DeprecatedMapperHelper {
         invoicePaymentChargebackReason.setCode(rs.getString(CHARGEBACK_DATA.CHARGEBACK_REASON.getName()));
         ChargebackCategory chargebackCategory =
                 TypeUtil.toEnumField(rs.getString(
-                                CHARGEBACK_DATA.CHARGEBACK_REASON_CATEGORY.getName()),
+                        CHARGEBACK_DATA.CHARGEBACK_REASON_CATEGORY.getName()),
                         ChargebackCategory.class);
         InvoicePaymentChargebackCategory invoicePaymentChargebackCategory = new InvoicePaymentChargebackCategory();
         switch (chargebackCategory) {
@@ -367,7 +367,7 @@ public class DeprecatedMapperHelper {
             throws SQLException {
         InvoicePaymentChargebackStatus invoicePaymentChargebackStatus = new InvoicePaymentChargebackStatus();
         ChargebackStatus chargebackStatus = TypeUtil.toEnumField(rs.getString(
-                        CHARGEBACK_DATA.CHARGEBACK_STATUS.getName()),
+                CHARGEBACK_DATA.CHARGEBACK_STATUS.getName()),
                 ChargebackStatus.class);
         switch (chargebackStatus) {
             case pending -> invoicePaymentChargebackStatus.setPending(new InvoicePaymentChargebackPending());
@@ -382,7 +382,7 @@ public class DeprecatedMapperHelper {
     public static InvoicePaymentChargebackStage toInvoicePaymentChargebackStage(ResultSet rs) throws SQLException {
         InvoicePaymentChargebackStage chargebackStage = new InvoicePaymentChargebackStage();
         ChargebackStage stage = TypeUtil.toEnumField(rs.getString(
-                        CHARGEBACK_DATA.CHARGEBACK_STAGE.getName()),
+                CHARGEBACK_DATA.CHARGEBACK_STAGE.getName()),
                 ChargebackStage.class);
         switch (stage) {
             case chargeback -> chargebackStage.setChargeback(new InvoicePaymentChargebackStageChargeback());
