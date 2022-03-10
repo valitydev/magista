@@ -125,10 +125,15 @@ public class DeprecatedMapperHelper {
                 );
                 return PaymentTool.bank_card(bankCard);
             case payment_terminal:
-                return PaymentTool.payment_terminal(new PaymentTerminal(
-                        TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER.getName()),
-                                TerminalPaymentProvider.class)
-                ));
+                PaymentTerminal paymentTerminal = new PaymentTerminal();
+                paymentTerminal.setTerminalTypeDeprecated(
+                        Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER.getName()))
+                                .map(paymentTerminalProvider -> TypeUtil.toEnumField(
+                                        paymentTerminalProvider,
+                                        TerminalPaymentProvider.class))
+                                .orElse(null));
+
+                return PaymentTool.payment_terminal(paymentTerminal);
             case digital_wallet:
                 return PaymentTool.digital_wallet(new DigitalWallet(
                         TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()),
