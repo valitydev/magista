@@ -127,12 +127,15 @@ public class DeprecatedMapperHelper {
             case payment_terminal:
                 PaymentTerminal paymentTerminal = new PaymentTerminal();
                 paymentTerminal.setTerminalTypeDeprecated(
-                        Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER.getName()))
-                                .map(paymentTerminalProvider -> TypeUtil.toEnumField(
-                                        paymentTerminalProvider,
-                                        TerminalPaymentProvider.class))
+                                Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER.getName()))
+                                        .map(paymentTerminalProvider -> TypeUtil.toEnumField(
+                                                paymentTerminalProvider,
+                                                TerminalPaymentProvider.class))
+                                        .orElse(null))
+                        .setPaymentService(Optional.ofNullable(
+                                        rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PAYMENT_SERVICE_REF_ID.getName()))
+                                .map(PaymentServiceRef::new)
                                 .orElse(null));
-
                 return PaymentTool.payment_terminal(paymentTerminal);
             case digital_wallet:
                 return PaymentTool.digital_wallet(new DigitalWallet(
