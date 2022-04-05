@@ -256,7 +256,7 @@ public class PaymentSearchQueryTest {
         assertEquals(1, statResponse.getData().getPayments().size());
         assertEquals(euroset,
                 statResponse.getData().getPayments().get(0).getPayer().getPaymentResource().getPaymentTool()
-                        .getPaymentTerminal().getTerminalType());
+                        .getPaymentTerminal().getTerminalTypeDeprecated());
         DamselUtil.toJson(statResponse);
     }
 
