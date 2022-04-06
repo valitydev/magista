@@ -49,7 +49,7 @@ public class PayoutListenerTest {
                 .setPayoutId("payout_id")
                 .setPartyId("1")
                 .setShopId("SHOP_ID")
-                .setStatus(PayoutStatus.paid(new PayoutPaid()))
+                .setStatus(PayoutStatus.confirmed(new PayoutConfirmed()))
                 .setPayoutToolId("111")
                 .setFee(0L)
                 .setAmount(10L)

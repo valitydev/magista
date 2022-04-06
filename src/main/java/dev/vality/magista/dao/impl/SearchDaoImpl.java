@@ -312,14 +312,16 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                 .addValue(PAYOUT.PARTY_ID, commonParams.getPartyId(), EQUALS)
                 .addInConditionValue(PAYOUT.SHOP_ID, commonParams.getShopIds())
                 .addValue(PAYOUT.PAYOUT_ID, payoutSearchQuery.getPayoutId(), EQUALS)
-                .addInConditionValue(PAYOUT.STATUS,
-                        payoutSearchQuery.isSetPayoutStatuses()
-                                ? toEnumFields(payoutSearchQuery.getPayoutStatuses().stream()
-                                        .map(ps -> ps.getSetField().getFieldName())
-                                        .collect(Collectors.toList()),
-                                PayoutStatus.class)
-                                : null)
                 .addValue(PAYOUT.CREATED_AT, timeHolder.getWhereTime(), LESS);
+        if (payoutSearchQuery.getPayoutStatusTypes() != null
+                && !payoutSearchQuery.getPayoutStatusTypes().isEmpty()) {
+            conditionParameterSource.addInConditionValue(
+                    PAYOUT.STATUS,
+                    toEnumFields(payoutSearchQuery.getPayoutStatusTypes().stream()
+                                    .map(Enum::name)
+                                    .collect(Collectors.toList()),
+                            PayoutStatus.class));
+        }
         if (payoutSearchQuery.getPayoutType() != null) {
             switch (payoutSearchQuery.getPayoutType()) {
                 case payout_account -> conditionParameterSource.addOrCondition(
