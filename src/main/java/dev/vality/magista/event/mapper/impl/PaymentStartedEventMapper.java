@@ -174,9 +174,13 @@ public class PaymentStartedEventMapper implements PaymentMapper {
                 )
         );
         if (paymentTool.isSetPaymentTerminal()) {
-            paymentData.setPaymentTerminalProvider(
-                    TerminalPaymentUtil.getTerminalPaymentProviderName(paymentTool.getPaymentTerminal())
-            );
+            PaymentTerminal paymentTerminal = paymentTool.getPaymentTerminal();
+            if (paymentTerminal.isSetTerminalTypeDeprecated()) {
+                paymentData.setPaymentTerminalProvider(paymentTerminal.getTerminalTypeDeprecated().name());
+            }
+            if (paymentTerminal.isSetPaymentService()) {
+                paymentData.setPaymentTerminalPaymentServiceRefId(paymentTerminal.getPaymentService().getId());
+            }
         }
 
         if (paymentTool.isSetDigitalWallet()) {

@@ -86,6 +86,10 @@ public class MapperHelper {
                                             LegacyTerminalPaymentProvider.class))
                                     .orElse(null)
                     )
+                    .setPaymentService(Optional.ofNullable(
+                                    rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PAYMENT_SERVICE_REF_ID.getName()))
+                            .map(PaymentServiceRef::new)
+                            .orElse(null))
             );
             case digital_wallet -> PaymentTool.digital_wallet(new DigitalWallet()
                         .setId(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_ID.getName()))
