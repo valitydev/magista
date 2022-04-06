@@ -7,7 +7,7 @@
     <parent>
         <groupId>dev.vality</groupId>
         <artifactId>service-parent-pom</artifactId>
-        <version>1.0.13</version>
+        <version>1.0.14</version>
     </parent>
 
     <artifactId>magista</artifactId>
@@ -120,12 +120,12 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>payout-manager-proto</artifactId>
-            <version>1.26-8655fef</version>
+            <version>1.35-dbed280</version>
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>magista-proto</artifactId>
-            <version>1.30-27bba86</version>
+            <version>1.37-ba389d1</version>
         </dependency>
         <dependency>
             <groupId>dev.vality.woody</groupId>
@@ -154,7 +154,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>machinegun-proto</artifactId>
-            <version>1.27-dec518d</version>
+            <version>1.30-277f06e</version>
         </dependency>
 
         <!--Test libs-->

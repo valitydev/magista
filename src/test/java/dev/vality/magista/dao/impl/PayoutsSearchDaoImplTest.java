@@ -1,12 +1,7 @@
 package dev.vality.magista.dao.impl;
 
-import dev.vality.magista.CommonSearchQueryParams;
-import dev.vality.magista.PayoutSearchQuery;
-import dev.vality.magista.PayoutToolType;
-import dev.vality.magista.StatPayout;
+import dev.vality.magista.*;
 import dev.vality.magista.config.PostgresqlSpringBootITest;
-import dev.vality.payout.manager.PayoutStatus;
-import dev.vality.payout.manager.PayoutUnpaid;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -57,7 +52,7 @@ public class PayoutsSearchDaoImplTest {
     @Test
     public void shouldFilterByUnpaid() {
         PayoutSearchQuery payoutSearchQuery = buildPayoutSearchQuery();
-        payoutSearchQuery.setPayoutStatuses(List.of(PayoutStatus.unpaid(new PayoutUnpaid())));
+        payoutSearchQuery.setPayoutStatusTypes(List.of(PayoutStatusType.unpaid));
         List<StatPayout> payouts = searchDao.getPayouts(payoutSearchQuery);
         assertEquals(2, payouts.size());
     }
