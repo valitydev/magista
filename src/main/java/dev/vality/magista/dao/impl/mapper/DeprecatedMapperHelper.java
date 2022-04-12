@@ -25,6 +25,7 @@ import dev.vality.damsel.merch_stat.InvoicePaymentRefunded;
 import dev.vality.damsel.merch_stat.InvoicePaymentStatus;
 import dev.vality.damsel.merch_stat.InvoiceStatus;
 import dev.vality.damsel.merch_stat.InvoiceUnpaid;
+import dev.vality.damsel.merch_stat.LegacyDigitalWalletProvider;
 import dev.vality.damsel.merch_stat.MobileCommerce;
 import dev.vality.damsel.merch_stat.MobileOperator;
 import dev.vality.damsel.merch_stat.MobilePhone;
@@ -138,11 +139,15 @@ public class DeprecatedMapperHelper {
                                 .orElse(null));
                 return PaymentTool.payment_terminal(paymentTerminal);
             case digital_wallet:
-                return PaymentTool.digital_wallet(new DigitalWallet(
-                        TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()),
-                                DigitalWalletProvider.class),
-                        rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_ID.getName())
-                ));
+                return PaymentTool.digital_wallet(new DigitalWallet()
+                        .setProviderDeprecated(TypeUtil.toEnumField(
+                                rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()),
+                                LegacyDigitalWalletProvider.class))
+                        .setId(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_ID.getName()))
+                        .setPaymentService(Optional.ofNullable(
+                                        rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_SERVICE_REF_ID.getName()))
+                                .map(PaymentServiceRef::new)
+                                .orElse(null)));
             case crypto_currency:
                 return PaymentTool.crypto_currency(
                         TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.CRYPTO_CURRENCY.getName()),
