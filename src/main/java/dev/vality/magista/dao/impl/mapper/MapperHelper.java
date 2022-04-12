@@ -92,17 +92,21 @@ public class MapperHelper {
                             .orElse(null))
             );
             case digital_wallet -> PaymentTool.digital_wallet(new DigitalWallet()
-                        .setId(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_ID.getName()))
-                        .setProviderDeprecated(Optional.ofNullable(
-                                rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()))
-                                .map(digitalWalletProvider -> TypeUtil.toEnumField(digitalWalletProvider,
-                                        LegacyDigitalWalletProvider.class)
-                                )
-                                .orElse(null)
-                        )
-                );
+                    .setId(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_ID.getName()))
+                    .setProviderDeprecated(Optional.ofNullable(
+                                    rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()))
+                            .map(digitalWalletProvider -> TypeUtil.toEnumField(digitalWalletProvider,
+                                    LegacyDigitalWalletProvider.class)
+                            )
+                            .orElse(null)
+                    )
+                    .setPaymentService(Optional.ofNullable(
+                                    rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_SERVICE_REF_ID.getName()))
+                            .map(PaymentServiceRef::new)
+                            .orElse(null))
+            );
             case crypto_currency -> PaymentTool.crypto_currency_deprecated(
-                        TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.CRYPTO_CURRENCY.getName()),
+                    TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.CRYPTO_CURRENCY.getName()),
                                 LegacyCryptoCurrency.class));
             case mobile_commerce -> PaymentTool.mobile_commerce(new MobileCommerce()
                         .setOperatorDeprecated(
