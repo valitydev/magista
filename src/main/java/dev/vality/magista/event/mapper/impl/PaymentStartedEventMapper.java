@@ -190,7 +190,7 @@ public class PaymentStartedEventMapper implements PaymentMapper {
                 paymentData.setPaymentDigitalWalletProvider(digitalWallet.getProviderDeprecated().name());
             }
             if (digitalWallet.isSetPaymentService()) {
-                paymentData.setPaymentTerminalPaymentServiceRefId(digitalWallet.getPaymentService().getId());
+                paymentData.setPaymentDigitalWalletServiceRefId(digitalWallet.getPaymentService().getId());
             }
         }
 
