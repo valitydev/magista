@@ -18,7 +18,6 @@ import dev.vality.magista.event.mapper.PaymentMapper;
 import dev.vality.magista.exception.NotFoundException;
 import dev.vality.magista.util.DamselUtil;
 import dev.vality.magista.util.FeeType;
-import dev.vality.mamsel.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -185,10 +184,6 @@ public class PaymentStartedEventMapper implements PaymentMapper {
 
         if (paymentTool.isSetDigitalWallet()) {
             DigitalWallet digitalWallet = paymentTool.getDigitalWallet();
-            paymentData.setPaymentDigitalWalletId(digitalWallet.getId());
-            if (digitalWallet.isSetProviderDeprecated()) {
-                paymentData.setPaymentDigitalWalletProvider(digitalWallet.getProviderDeprecated().name());
-            }
             if (digitalWallet.isSetPaymentService()) {
                 paymentData.setPaymentDigitalWalletServiceRefId(digitalWallet.getPaymentService().getId());
             }
@@ -197,12 +192,12 @@ public class PaymentStartedEventMapper implements PaymentMapper {
         if (paymentTool.isSetBankCard()) {
             BankCard bankCard = paymentTool.getBankCard();
             paymentData.setPaymentBankCardLast4(bankCard.getLastDigits());
-            String paymentSystemName = PaymentSystemUtil
-                    .getPaymentSystemName(bankCard.getPaymentSystem(), bankCard.getPaymentSystemDeprecated());
-            paymentData.setPaymentBankCardSystem(paymentSystemName);
+            paymentData.setPaymentBankCardSystem(Optional.ofNullable(bankCard.getPaymentSystem())
+                    .map(PaymentSystemRef::getId).orElse(null));
             paymentData.setPaymentBankCardFirst6(bankCard.getBin());
             paymentData.setPaymentBankCardToken(bankCard.getToken());
-            paymentData.setPaymentBankCardTokenProvider(TokenProviderUtil.getTokenProviderName(bankCard));
+            paymentData.setPaymentBankCardTokenProvider(Optional.ofNullable(bankCard.getPaymentToken())
+                    .map(BankCardTokenServiceRef::getId).orElse(null));
         }
 
         if (paymentTool.isSetCryptoCurrency()) {
@@ -210,8 +205,8 @@ public class PaymentStartedEventMapper implements PaymentMapper {
         }
 
         if (paymentTool.isSetMobileCommerce()) {
-            String mobileOperatorName = MobileOperatorUtil.getMobileOperatorName(paymentTool.getMobileCommerce());
-            paymentData.setPaymentMobileOperator(mobileOperatorName);
+            paymentData.setPaymentMobileOperator(Optional.ofNullable(paymentTool.getMobileCommerce().getOperator())
+                    .map(MobileOperatorRef::getId).orElse(null));
             paymentData.setPaymentMobilePhoneCc(paymentTool.getMobileCommerce().getPhone().getCc());
             paymentData.setPaymentMobilePhoneCtn(paymentTool.getMobileCommerce().getPhone().getCtn());
         }
