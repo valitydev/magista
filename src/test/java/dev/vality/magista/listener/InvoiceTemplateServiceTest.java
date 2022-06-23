@@ -30,7 +30,6 @@ import static dev.vality.magista.domain.tables.InvoiceTemplate.INVOICE_TEMPLATE;
 import static dev.vality.magista.util.InvoiceTemplateGenerator.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -175,7 +174,7 @@ public class InvoiceTemplateServiceTest {
     public void shouldNotParseArrayEvents() throws Exception {
         String repairId = "repairId";
         InvoiceTemplate invoiceTemplate = getInvoiceTemplate(getCart());
-        when(invoiceTemplatingClient.get(any(), eq(repairId))).thenReturn(invoiceTemplate);
+        when(invoiceTemplatingClient.get(eq(repairId))).thenReturn(invoiceTemplate);
         String invoiceTemplateId = "invoiceTemplateId";
         MachineEvent message = new MachineEvent()
                 .setData(toArray(
@@ -193,7 +192,7 @@ public class InvoiceTemplateServiceTest {
                 .setSourceNs("source_ns")
                 .setSourceId(invoiceTemplateId);
         invoiceTemplateListener.handleMessages(List.of(message));
-        verify(invoiceTemplatingClient, timeout(5000).times(1)).get(any(), eq(repairId));
+        verify(invoiceTemplatingClient, timeout(5000).times(1)).get(eq(repairId));
     }
 
     private Value getDefaultInvoiceTemplateValue() {
