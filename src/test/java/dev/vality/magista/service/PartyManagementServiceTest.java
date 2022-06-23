@@ -48,26 +48,25 @@ public class PartyManagementServiceTest {
     @SneakyThrows
     @BeforeEach
     public void setup() {
-
-        given(partyManagementClient.getShop(any(), any(), eq(SHOP_ID_1)))
+        given(partyManagementClient.getShop(any(), eq(SHOP_ID_1)))
                 .willReturn(new Shop().setContractId(CONTRACT_ID_1));
-        given(partyManagementClient.getShop(any(), any(), eq(SHOP_ID_2)))
+        given(partyManagementClient.getShop(any(), eq(SHOP_ID_2)))
                 .willReturn(new Shop().setContractId(CONTRACT_ID_2));
-        given(partyManagementClient.getContract(any(), any(), eq(CONTRACT_ID_1)))
+        given(partyManagementClient.getContract(any(), eq(CONTRACT_ID_1)))
                 .willReturn(new Contract().setPayoutTools(List.of(
                         new PayoutTool()
                                 .setId(PAYOUT_TOOL_ID_1)
                                 .setPayoutToolInfo(EXPECTED_PAYOUT_TOOL_INFO_1))));
-        given(partyManagementClient.getContract(any(), any(), eq(CONTRACT_ID_2)))
+        given(partyManagementClient.getContract(any(), eq(CONTRACT_ID_2)))
                 .willReturn(new Contract().setPayoutTools(List.of()));
 
-        given(partyManagementClient.getRevision(any(), any())).willReturn(3L);
-        given(partyManagementClient.checkout(any(), any(), eq(PartyRevisionParam.revision(2))))
+        given(partyManagementClient.getRevision(any())).willReturn(3L);
+        given(partyManagementClient.checkout(any(), eq(PartyRevisionParam.revision(2))))
                 .willReturn(new Party()
                         .setShops(Map.of(SHOP_ID_2, new Shop().setContractId("kek_contract_id")))
                         .setContracts(Map.of("kek_contract_id",
                                 new Contract().setPayoutTools(List.of(new PayoutTool().setId("kek_id"))))));
-        given(partyManagementClient.checkout(any(), any(), eq(PartyRevisionParam.revision(1))))
+        given(partyManagementClient.checkout(any(), eq(PartyRevisionParam.revision(1))))
                 .willReturn(new Party()
                         .setShops(Map.of(SHOP_ID_2, new Shop().setContractId(CONTRACT_ID_2)))
                         .setContracts(Map.of(CONTRACT_ID_2,

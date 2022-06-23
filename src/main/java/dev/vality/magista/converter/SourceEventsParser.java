@@ -1,7 +1,10 @@
 package dev.vality.magista.converter;
 
 import dev.vality.damsel.domain.InvoiceTemplate;
-import dev.vality.damsel.payment_processing.*;
+import dev.vality.damsel.payment_processing.EventPayload;
+import dev.vality.damsel.payment_processing.InvoiceTemplateChange;
+import dev.vality.damsel.payment_processing.InvoiceTemplateCreated;
+import dev.vality.damsel.payment_processing.InvoiceTemplatingSrv;
 import dev.vality.machinegun.eventsink.MachineEvent;
 import dev.vality.machinegun.msgpack.Value;
 import dev.vality.magista.exception.ParseException;
@@ -22,8 +25,6 @@ public class SourceEventsParser {
 
     public static final String TPL = "tpl";
     public static final String ID = "id";
-
-    private final UserInfo userInfo = new UserInfo("magista", UserType.internal_user(new InternalUser()));
 
     private final BinaryConverter<EventPayload> converter;
     private final InvoiceTemplatingSrv.Iface invoiceTemplatingClient;
@@ -75,7 +76,7 @@ public class SourceEventsParser {
 
     @SneakyThrows
     private InvoiceTemplate getInvoiceTemplate(String id) {
-        return invoiceTemplatingClient.get(userInfo, id);
+        return invoiceTemplatingClient.get(id);
     }
 
     private EventPayload getEventPayload(InvoiceTemplate invoiceTemplate) {

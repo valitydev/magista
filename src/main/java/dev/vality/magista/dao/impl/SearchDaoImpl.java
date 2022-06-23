@@ -365,7 +365,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                         EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER,
                         paymentParams.isSetPaymentTerminalProvider()
-                                ? paymentParams.getPaymentTerminalProvider().name()
+                                ? paymentParams.getPaymentTerminalProvider().getId()
                                 : null,
                         EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_EMAIL, paymentParams.getPaymentEmail(), EQUALS)
@@ -374,7 +374,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                 .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_FIRST6, paymentParams.getPaymentFirst6(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM,
                         paymentParams.isSetPaymentSystem()
-                                ? paymentParams.getPaymentSystem().name()
+                                ? paymentParams.getPaymentSystem().getId()
                                 : null,
                         EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_LAST4, paymentParams.getPaymentLast4(), EQUALS)
@@ -420,9 +420,9 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
         if (paymentParams.isSetPaymentTokenProvider()) {
             conditionParameterSource.addOrCondition(
                     PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER
-                            .eq(paymentParams.getPaymentTokenProvider().name()),
+                            .eq(paymentParams.getPaymentTokenProvider().getId()),
                     PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER_LEGACY.eq(
-                            toEnumField(paymentParams.getPaymentTokenProvider().name(),
+                            toEnumField(paymentParams.getPaymentTokenProvider().getId(),
                                     dev.vality.magista.domain.enums.BankCardTokenProvider.class)));
         }
         return conditionParameterSource;

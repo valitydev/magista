@@ -1,7 +1,8 @@
 package dev.vality.magista.service;
 
 import dev.vality.damsel.domain.*;
-import dev.vality.damsel.payment_processing.*;
+import dev.vality.damsel.payment_processing.PartyManagementSrv;
+import dev.vality.damsel.payment_processing.PartyRevisionParam;
 import dev.vality.magista.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -14,12 +15,11 @@ import java.util.Optional;
 public class PartyManagementService {
 
     private final PartyManagementSrv.Iface partyManagementClient;
-    private final UserInfo userInfo = new UserInfo("admin", UserType.internal_user(new InternalUser()));
 
     @SneakyThrows
     public PayoutToolInfo getPayoutToolInfo(String partyId, String shopId, String payoutToolId) {
-        Shop shop = partyManagementClient.getShop(userInfo, partyId, shopId);
-        Contract contract = partyManagementClient.getContract(userInfo, partyId, shop.getContractId());
+        Shop shop = partyManagementClient.getShop(partyId, shopId);
+        Contract contract = partyManagementClient.getContract(partyId, shop.getContractId());
         return extractPayoutToolInfo(payoutToolId, contract)
                 .orElseGet(() -> getDeepPayoutToolInfo(partyId, shopId, payoutToolId));
     }
@@ -33,9 +33,9 @@ public class PartyManagementService {
 
     @SneakyThrows
     private PayoutToolInfo getDeepPayoutToolInfo(String partyId, String shopId, String payoutToolId) {
-        long currentRevision = partyManagementClient.getRevision(userInfo, partyId);
+        long currentRevision = partyManagementClient.getRevision(partyId);
         for (long revision = currentRevision - 1; revision >= 0; --revision) {
-            Party party = partyManagementClient.checkout(userInfo, partyId, PartyRevisionParam.revision(revision));
+            Party party = partyManagementClient.checkout(partyId, PartyRevisionParam.revision(revision));
             Shop shop = party.getShops().get(shopId);
             Contract contract = party.getContracts().get(shop.getContractId());
             Optional<PayoutToolInfo> payoutToolInfo = extractPayoutToolInfo(payoutToolId, contract);

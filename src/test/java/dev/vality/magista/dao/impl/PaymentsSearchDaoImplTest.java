@@ -1,8 +1,9 @@
 package dev.vality.magista.dao.impl;
 
-import dev.vality.damsel.domain.LegacyBankCardPaymentSystem;
-import dev.vality.damsel.domain.LegacyBankCardTokenProvider;
+import dev.vality.damsel.domain.BankCardTokenServiceRef;
 import dev.vality.damsel.domain.LegacyTerminalPaymentProvider;
+import dev.vality.damsel.domain.PaymentServiceRef;
+import dev.vality.damsel.domain.PaymentSystemRef;
 import dev.vality.geck.common.util.TypeUtil;
 import dev.vality.magista.*;
 import dev.vality.magista.config.PostgresqlSpringBootITest;
@@ -201,7 +202,7 @@ public class PaymentsSearchDaoImplTest {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
                 .setPaymentTool(PaymentToolType.payment_terminal)
-                .setPaymentTerminalProvider(LegacyTerminalPaymentProvider.euroset);
+                .setPaymentTerminalProvider(new PaymentServiceRef("euroset"));
         var payments = searchDao.getPayments(searchQuery);
         assertEquals(1, payments.size());
         assertEquals(LegacyTerminalPaymentProvider.euroset,
@@ -293,7 +294,7 @@ public class PaymentsSearchDaoImplTest {
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
     public void testSearchByBankCardTokenProvider() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
-        searchQuery.getPaymentParams().setPaymentTokenProvider(LegacyBankCardTokenProvider.applepay);
+        searchQuery.getPaymentParams().setPaymentTokenProvider(new BankCardTokenServiceRef("applepay"));
         var payments = searchDao.getPayments(searchQuery);
         assertEquals(1, payments.size());
     }
@@ -302,7 +303,7 @@ public class PaymentsSearchDaoImplTest {
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
     public void testSearchByBankCardPaymentSystem() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
-        searchQuery.getPaymentParams().setPaymentSystem(LegacyBankCardPaymentSystem.mastercard);
+        searchQuery.getPaymentParams().setPaymentSystem(new PaymentSystemRef("mastercard"));
         var payments = searchDao.getPayments(searchQuery);
         assertEquals(1, payments.size());
     }
