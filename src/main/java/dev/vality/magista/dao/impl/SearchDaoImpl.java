@@ -363,20 +363,10 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                 ? TypeUtil.toEnumField(paymentParams.getPaymentTool().name(), PaymentTool.class)
                                 : null,
                         EQUALS)
-                .addValue(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER,
-                        paymentParams.isSetPaymentTerminalProvider()
-                                ? paymentParams.getPaymentTerminalProvider().getId()
-                                : null,
-                        EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_EMAIL, paymentParams.getPaymentEmail(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_IP, paymentParams.getPaymentIp(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_FINGERPRINT, paymentParams.getPaymentFingerprint(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_FIRST6, paymentParams.getPaymentFirst6(), EQUALS)
-                .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM,
-                        paymentParams.isSetPaymentSystem()
-                                ? paymentParams.getPaymentSystem().getId()
-                                : null,
-                        EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_LAST4, paymentParams.getPaymentLast4(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_CUSTOMER_ID, paymentParams.getPaymentCustomerId(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_PROVIDER_ID,
@@ -424,6 +414,34 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                     PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER_LEGACY.eq(
                             toEnumField(paymentParams.getPaymentTokenProvider().getId(),
                                     dev.vality.magista.domain.enums.BankCardTokenProvider.class)));
+        }
+        if (paymentParams.isSetLegacyPaymentTokenProvider()) {
+            conditionParameterSource.addOrCondition(
+                    PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER
+                            .eq(paymentParams.getLegacyPaymentTokenProvider().name()),
+                    PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER_LEGACY.eq(
+                            toEnumField(paymentParams.getLegacyPaymentTokenProvider().name(),
+                                    dev.vality.magista.domain.enums.BankCardTokenProvider.class)));
+        }
+        if (paymentParams.isSetPaymentTerminalProvider()) {
+            conditionParameterSource.addOrCondition(
+                    PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER
+                            .eq(paymentParams.getPaymentTerminalProvider().getId()));
+        }
+        if (paymentParams.isSetLegacyPaymentTerminalProvider()) {
+            conditionParameterSource.addOrCondition(
+                    PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER
+                            .eq(paymentParams.getLegacyPaymentTerminalProvider().name()));
+        }
+        if (paymentParams.isSetPaymentSystem()) {
+            conditionParameterSource.addOrCondition(
+                    PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM
+                            .eq(paymentParams.getPaymentSystem().getId()));
+        }
+        if (paymentParams.isSetLegacyPaymentSystem()) {
+            conditionParameterSource.addOrCondition(
+                    PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM
+                            .eq(paymentParams.getLegacyPaymentSystem().name()));
         }
         return conditionParameterSource;
     }
