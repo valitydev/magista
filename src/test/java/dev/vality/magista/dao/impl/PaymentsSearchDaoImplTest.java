@@ -1,7 +1,6 @@
 package dev.vality.magista.dao.impl;
 
 import dev.vality.damsel.domain.BankCardTokenServiceRef;
-import dev.vality.damsel.domain.LegacyTerminalPaymentProvider;
 import dev.vality.damsel.domain.PaymentServiceRef;
 import dev.vality.damsel.domain.PaymentSystemRef;
 import dev.vality.geck.common.util.TypeUtil;
@@ -205,9 +204,9 @@ public class PaymentsSearchDaoImplTest {
                 .setPaymentTerminalProvider(new PaymentServiceRef("euroset"));
         var payments = searchDao.getPayments(searchQuery);
         assertEquals(1, payments.size());
-        assertEquals(LegacyTerminalPaymentProvider.euroset,
+        assertEquals("euroset",
                 payments.get(0).getPayer().getPaymentResource().getResource().getPaymentTool()
-                        .getPaymentTerminal().getTerminalTypeDeprecated());
+                        .getPaymentTerminal().getPaymentService().getId());
     }
 
     @Test

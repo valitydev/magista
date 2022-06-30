@@ -15,7 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.time.Instant;
 
-import static dev.vality.damsel.merch_stat.TerminalPaymentProvider.euroset;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -254,9 +253,9 @@ public class PaymentSearchQueryTest {
                 "{'query': {'payments': {'merchant_id': 'db79ad6c-a507-43ed-9ecf-3bbd88475b32','shop_id': 'SHOP_ID', 'payment_method': 'payment_terminal', 'payment_terminal_provider':'euroset', 'from_time': '2016-10-25T15:45:20Z','to_time': '3018-10-26T18:10:10Z'}}}";
         StatResponse statResponse = queryProcessor.processQuery(new StatRequest(json));
         assertEquals(1, statResponse.getData().getPayments().size());
-        assertEquals(euroset,
+        assertEquals("euroset",
                 statResponse.getData().getPayments().get(0).getPayer().getPaymentResource().getPaymentTool()
-                        .getPaymentTerminal().getTerminalTypeDeprecated());
+                        .getPaymentTerminal().getPaymentService().getId());
         DamselUtil.toJson(statResponse);
     }
 

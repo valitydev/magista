@@ -116,6 +116,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>damsel</artifactId>
+            <version>1.566-03bbf48</version>
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
@@ -125,7 +126,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>magista-proto</artifactId>
-            <version>1.42-0046061</version>
+            <version>1.44-5352f74</version>
         </dependency>
         <dependency>
             <groupId>dev.vality.woody</groupId>
@@ -150,7 +151,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>machinegun-proto</artifactId>
-            <version>1.38-347c5c4</version>
+            <version>1.39-07767de</version>
         </dependency>
 
         <!--Test libs-->
