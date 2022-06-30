@@ -116,7 +116,9 @@ public class DeprecatedMapperHelper {
                 paymentTerminal.setPaymentService(Optional.ofNullable(
                                 rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PAYMENT_SERVICE_REF_ID.getName()))
                         .map(PaymentServiceRef::new)
-                        .orElse(null));
+                        .orElse(Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER.getName()))
+                                .map(PaymentServiceRef::new)
+                                .orElse(null)));
                 return PaymentTool.payment_terminal(paymentTerminal);
             case digital_wallet:
                 return PaymentTool.digital_wallet(new DigitalWallet()
@@ -124,7 +126,10 @@ public class DeprecatedMapperHelper {
                         .setPaymentService(Optional.ofNullable(
                                         rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_SERVICE_REF_ID.getName()))
                                 .map(PaymentServiceRef::new)
-                                .orElse(null)));
+                                .orElse(Optional.ofNullable(
+                                                rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()))
+                                        .map(PaymentServiceRef::new)
+                                        .orElse(null))));
             case crypto_currency:
                 return PaymentTool.crypto_currency(new CryptoCurrency()
                         .setCryptoCurrency(Optional.ofNullable(

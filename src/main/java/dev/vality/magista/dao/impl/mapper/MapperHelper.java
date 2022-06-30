@@ -68,13 +68,18 @@ public class MapperHelper {
                     .setPaymentService(Optional.ofNullable(
                                     rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PAYMENT_SERVICE_REF_ID.getName()))
                             .map(PaymentServiceRef::new)
-                            .orElse(null)));
+                            .orElse(Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER.getName()))
+                                    .map(PaymentServiceRef::new)
+                                    .orElse(null))));
             case digital_wallet -> PaymentTool.digital_wallet(new DigitalWallet()
                     .setId(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_ID.getName()))
                     .setPaymentService(Optional.ofNullable(
                                     rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_SERVICE_REF_ID.getName()))
                             .map(PaymentServiceRef::new)
-                            .orElse(null)));
+                            .orElse(Optional.ofNullable(
+                                            rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()))
+                                    .map(PaymentServiceRef::new)
+                                    .orElse(null))));
             case crypto_currency -> PaymentTool.crypto_currency(
                     new CryptoCurrencyRef(rs.getString(PAYMENT_DATA.CRYPTO_CURRENCY.getName())));
             case mobile_commerce -> PaymentTool.mobile_commerce(new MobileCommerce()
