@@ -415,33 +415,15 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                             toEnumField(paymentParams.getPaymentTokenProvider().getId(),
                                     dev.vality.magista.domain.enums.BankCardTokenProvider.class)));
         }
-        if (paymentParams.isSetLegacyPaymentTokenProvider()) {
-            conditionParameterSource.addOrCondition(
-                    PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER
-                            .eq(paymentParams.getLegacyPaymentTokenProvider().name()),
-                    PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER_LEGACY.eq(
-                            toEnumField(paymentParams.getLegacyPaymentTokenProvider().name(),
-                                    dev.vality.magista.domain.enums.BankCardTokenProvider.class)));
-        }
         if (paymentParams.isSetPaymentTerminalProvider()) {
             conditionParameterSource.addOrCondition(
                     PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER
                             .eq(paymentParams.getPaymentTerminalProvider().getId()));
         }
-        if (paymentParams.isSetLegacyPaymentTerminalProvider()) {
-            conditionParameterSource.addOrCondition(
-                    PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER
-                            .eq(paymentParams.getLegacyPaymentTerminalProvider().name()));
-        }
         if (paymentParams.isSetPaymentSystem()) {
             conditionParameterSource.addOrCondition(
                     PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM
                             .eq(paymentParams.getPaymentSystem().getId()));
-        }
-        if (paymentParams.isSetLegacyPaymentSystem()) {
-            conditionParameterSource.addOrCondition(
-                    PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM
-                            .eq(paymentParams.getLegacyPaymentSystem().name()));
         }
         return conditionParameterSource;
     }

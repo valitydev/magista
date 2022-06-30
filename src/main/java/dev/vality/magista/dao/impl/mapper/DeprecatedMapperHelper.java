@@ -25,9 +25,7 @@ import dev.vality.damsel.merch_stat.InvoicePaymentRefunded;
 import dev.vality.damsel.merch_stat.InvoicePaymentStatus;
 import dev.vality.damsel.merch_stat.InvoiceStatus;
 import dev.vality.damsel.merch_stat.InvoiceUnpaid;
-import dev.vality.damsel.merch_stat.LegacyDigitalWalletProvider;
 import dev.vality.damsel.merch_stat.MobileCommerce;
-import dev.vality.damsel.merch_stat.MobileOperator;
 import dev.vality.damsel.merch_stat.MobilePhone;
 import dev.vality.damsel.merch_stat.OnHoldExpiration;
 import dev.vality.damsel.merch_stat.OperationFailure;
@@ -108,57 +106,38 @@ public class DeprecatedMapperHelper {
                 bankCard.setPaymentSystem(
                         new PaymentSystemRef(rs.getString(PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM.getName()))
                 );
-                bankCard.setPaymentSystemDeprecated(
-                        Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_BANK_CARD_SYSTEM.getName()))
-                                .map(bankCardSystem ->
-                                        TypeUtil.toEnumField(bankCardSystem, LegacyBankCardPaymentSystem.class))
-                                .orElse(null)
-                );
                 String tokenProvider = rs.getString(PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER.getName());
                 if (StringUtils.isNotEmpty(tokenProvider)) {
                     bankCard.setPaymentToken(new BankCardTokenServiceRef(tokenProvider));
                 }
-                bankCard.setTokenProviderDeprecated(
-                        Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER.getName()))
-                                .map(bankCardTokenProvider -> TypeUtil
-                                        .toEnumField(bankCardTokenProvider, LegacyBankCardTokenProvider.class))
-                                .orElse(null)
-                );
                 return PaymentTool.bank_card(bankCard);
             case payment_terminal:
                 PaymentTerminal paymentTerminal = new PaymentTerminal();
-                paymentTerminal.setTerminalTypeDeprecated(
-                                Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PROVIDER.getName()))
-                                        .map(paymentTerminalProvider -> TypeUtil.toEnumField(
-                                                paymentTerminalProvider,
-                                                TerminalPaymentProvider.class))
-                                        .orElse(null))
-                        .setPaymentService(Optional.ofNullable(
-                                        rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PAYMENT_SERVICE_REF_ID.getName()))
-                                .map(PaymentServiceRef::new)
-                                .orElse(null));
+                paymentTerminal.setPaymentService(Optional.ofNullable(
+                                rs.getString(PAYMENT_DATA.PAYMENT_TERMINAL_PAYMENT_SERVICE_REF_ID.getName()))
+                        .map(PaymentServiceRef::new)
+                        .orElse(null));
                 return PaymentTool.payment_terminal(paymentTerminal);
             case digital_wallet:
                 return PaymentTool.digital_wallet(new DigitalWallet()
-                        .setProviderDeprecated(TypeUtil.toEnumField(
-                                rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_PROVIDER.getName()),
-                                LegacyDigitalWalletProvider.class))
                         .setId(rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_ID.getName()))
                         .setPaymentService(Optional.ofNullable(
                                         rs.getString(PAYMENT_DATA.PAYMENT_DIGITAL_WALLET_SERVICE_REF_ID.getName()))
                                 .map(PaymentServiceRef::new)
                                 .orElse(null)));
             case crypto_currency:
-                return PaymentTool.crypto_currency(
-                        TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.CRYPTO_CURRENCY.getName()),
-                                CryptoCurrency.class));
+                return PaymentTool.crypto_currency(new CryptoCurrency()
+                        .setCryptoCurrency(Optional.ofNullable(
+                                        rs.getString(PAYMENT_DATA.CRYPTO_CURRENCY.getName()))
+                                .map(CryptoCurrencyRef::new)
+                                .orElse(null)));
             case mobile_commerce:
                 MobilePhone mobilePhone = new MobilePhone(rs.getString(PAYMENT_DATA.PAYMENT_MOBILE_PHONE_CC.getName()),
                         rs.getString(PAYMENT_DATA.PAYMENT_MOBILE_PHONE_CTN.getName()));
-                MobileOperator mobileOperator =
-                        TypeUtil.toEnumField(rs.getString(PAYMENT_DATA.PAYMENT_MOBILE_OPERATOR.getName()),
-                                MobileOperator.class);
-                return PaymentTool.mobile_commerce(new MobileCommerce(mobileOperator, mobilePhone));
+                return PaymentTool.mobile_commerce(new MobileCommerce(mobilePhone)
+                        .setOperator(Optional.ofNullable(rs.getString(PAYMENT_DATA.PAYMENT_MOBILE_OPERATOR.getName()))
+                                .map(MobileOperatorRef::new)
+                                .orElse(null)));
             default:
                 throw new NotFoundException(String.format("Payment tool '%s' not found", paymentToolType));
         }
@@ -353,7 +332,7 @@ public class DeprecatedMapperHelper {
         invoicePaymentChargebackReason.setCode(rs.getString(CHARGEBACK_DATA.CHARGEBACK_REASON.getName()));
         ChargebackCategory chargebackCategory =
                 TypeUtil.toEnumField(rs.getString(
-                        CHARGEBACK_DATA.CHARGEBACK_REASON_CATEGORY.getName()),
+                                CHARGEBACK_DATA.CHARGEBACK_REASON_CATEGORY.getName()),
                         ChargebackCategory.class);
         InvoicePaymentChargebackCategory invoicePaymentChargebackCategory = new InvoicePaymentChargebackCategory();
         switch (chargebackCategory) {
@@ -375,7 +354,7 @@ public class DeprecatedMapperHelper {
             throws SQLException {
         InvoicePaymentChargebackStatus invoicePaymentChargebackStatus = new InvoicePaymentChargebackStatus();
         ChargebackStatus chargebackStatus = TypeUtil.toEnumField(rs.getString(
-                CHARGEBACK_DATA.CHARGEBACK_STATUS.getName()),
+                        CHARGEBACK_DATA.CHARGEBACK_STATUS.getName()),
                 ChargebackStatus.class);
         switch (chargebackStatus) {
             case pending -> invoicePaymentChargebackStatus.setPending(new InvoicePaymentChargebackPending());
@@ -390,7 +369,7 @@ public class DeprecatedMapperHelper {
     public static InvoicePaymentChargebackStage toInvoicePaymentChargebackStage(ResultSet rs) throws SQLException {
         InvoicePaymentChargebackStage chargebackStage = new InvoicePaymentChargebackStage();
         ChargebackStage stage = TypeUtil.toEnumField(rs.getString(
-                CHARGEBACK_DATA.CHARGEBACK_STAGE.getName()),
+                        CHARGEBACK_DATA.CHARGEBACK_STAGE.getName()),
                 ChargebackStage.class);
         switch (stage) {
             case chargeback -> chargebackStage.setChargeback(new InvoicePaymentChargebackStageChargeback());
