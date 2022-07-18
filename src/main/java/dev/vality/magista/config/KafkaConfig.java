@@ -18,6 +18,8 @@ import org.springframework.kafka.listener.SeekToCurrentBatchErrorHandler;
 
 import java.util.Map;
 
+import static org.apache.kafka.clients.consumer.OffsetResetStrategy.EARLIEST;
+
 @Configuration
 public class KafkaConfig {
 
@@ -110,6 +112,9 @@ public class KafkaConfig {
     }
 
     private Map<String, Object> defaultProperties(KafkaProperties kafkaProperties) {
-        return kafkaProperties.buildConsumerProperties();
+        var properties = kafkaProperties.buildConsumerProperties();
+        properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, EARLIEST.name().toLowerCase());
+        properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        return properties;
     }
 }

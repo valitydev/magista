@@ -23,8 +23,6 @@ spring:
     consumer:
       group-id: magista-group-1
       max-poll-interval-ms: 60000
-      enable-auto-commit: false
-      auto-offset-reset: earliest
       session-timeout-ms: 60000
 
 retry-policy:
