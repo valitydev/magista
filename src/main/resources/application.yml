@@ -22,8 +22,9 @@ spring:
     client-id: magista
     consumer:
       group-id: magista-group-1
-      max-poll-interval-ms: 60000
-      session-timeout-ms: 60000
+      properties:
+        max.poll.interval.ms: 60000
+        session.timeout.ms: 60000
 
 retry-policy:
   maxAttempts: -1
