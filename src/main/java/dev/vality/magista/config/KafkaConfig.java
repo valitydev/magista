@@ -1,18 +1,14 @@
 package dev.vality.magista.config;
 
 import dev.vality.machinegun.eventsink.SinkEvent;
-import dev.vality.magista.config.properties.KafkaSslProperties;
 import dev.vality.magista.serde.PayoutEventDeserializer;
 import dev.vality.magista.serde.SinkEventDeserializer;
 import dev.vality.payout.manager.Event;
-import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.config.SslConfigs;
-import org.apache.kafka.common.security.auth.SecurityProtocol;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -20,30 +16,12 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.SeekToCurrentBatchErrorHandler;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.apache.kafka.clients.consumer.OffsetResetStrategy.EARLIEST;
 
 @Configuration
-@EnableConfigurationProperties(KafkaSslProperties.class)
 public class KafkaConfig {
-
-    @Value("${kafka.bootstrap-servers}")
-    private String bootstrapServers;
-
-    @Value("${kafka.client-id}")
-    private String clientId;
-
-    @Value("${kafka.consumer.group-id}")
-    private String groupId;
-
-    @Value("${kafka.consumer.max-poll-interval-ms}")
-    private int maxPollInterval;
-
-    @Value("${kafka.consumer.max-session-timeout-ms}")
-    private int maxSessionTimeout;
 
     @Value("${kafka.topics.invoicing.consume.max-poll-records}")
     private String invoicingMaxPollRecords;
@@ -65,42 +43,42 @@ public class KafkaConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, SinkEvent> invoicingListenerContainerFactory(
-            KafkaSslProperties kafkaSslProperties) {
+            KafkaProperties kafkaProperties) {
         var containerFactory = new ConcurrentKafkaListenerContainerFactory<String, SinkEvent>();
         configureContainerFactory(
                 containerFactory,
                 new SinkEventDeserializer(),
-                clientId,
+                kafkaProperties.getClientId(),
                 invoicingMaxPollRecords,
-                kafkaSslProperties);
+                kafkaProperties);
         containerFactory.setConcurrency(invoicingConcurrency);
         return containerFactory;
     }
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, SinkEvent> invoiceTemplateListenerContainerFactory(
-            KafkaSslProperties kafkaSslProperties) {
+            KafkaProperties kafkaProperties) {
         var containerFactory = new ConcurrentKafkaListenerContainerFactory<String, SinkEvent>();
         configureContainerFactory(
                 containerFactory,
                 new SinkEventDeserializer(),
-                clientId + "-invoice-template",
+                kafkaProperties.getClientId() + "-invoice-template",
                 invoiceTemplateMaxPollRecords,
-                kafkaSslProperties);
+                kafkaProperties);
         containerFactory.setConcurrency(invoiceTemplateConcurrency);
         return containerFactory;
     }
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Event> payoutListenerContainerFactory(
-            KafkaSslProperties kafkaSslProperties) {
+            KafkaProperties kafkaProperties) {
         var containerFactory = new ConcurrentKafkaListenerContainerFactory<String, Event>();
         configureContainerFactory(
                 containerFactory,
                 new PayoutEventDeserializer(),
-                clientId + "-pm-events-payout",
+                kafkaProperties.getClientId() + "-pm-events-payout",
                 payoutMaxPollRecords,
-                kafkaSslProperties);
+                kafkaProperties);
         containerFactory.setConcurrency(payoutConcurrency);
         return containerFactory;
     }
@@ -110,12 +88,12 @@ public class KafkaConfig {
             Deserializer<T> deserializer,
             String clientId,
             String maxPollRecords,
-            KafkaSslProperties kafkaSslProperties) {
+            KafkaProperties kafkaProperties) {
         var consumerFactory = createKafkaConsumerFactory(
                 deserializer,
                 clientId,
                 maxPollRecords,
-                kafkaSslProperties);
+                kafkaProperties);
         containerFactory.setConsumerFactory(consumerFactory);
         containerFactory.setBatchErrorHandler(new SeekToCurrentBatchErrorHandler());
         containerFactory.setBatchListener(true);
@@ -126,37 +104,17 @@ public class KafkaConfig {
             Deserializer<T> deserializer,
             String clientId,
             String maxPollRecords,
-            KafkaSslProperties kafkaSslProperties) {
-        Map<String, Object> properties = defaultProperties(kafkaSslProperties);
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+            KafkaProperties kafkaProperties) {
+        Map<String, Object> properties = defaultProperties(kafkaProperties);
         properties.put(ConsumerConfig.CLIENT_ID_CONFIG, clientId);
         properties.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);
         return new DefaultKafkaConsumerFactory<>(properties, new StringDeserializer(), deserializer);
     }
 
-    private Map<String, Object> defaultProperties(KafkaSslProperties kafkaSslProperties) {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+    private Map<String, Object> defaultProperties(KafkaProperties kafkaProperties) {
+        var properties = kafkaProperties.buildConsumerProperties();
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, EARLIEST.name().toLowerCase());
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-        properties.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollInterval);
-        properties.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, maxSessionTimeout);
-        configureSsl(properties, kafkaSslProperties);
         return properties;
-    }
-
-    private void configureSsl(Map<String, Object> properties, KafkaSslProperties kafkaSslProperties) {
-        if (kafkaSslProperties.isEnabled()) {
-            properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, SecurityProtocol.SSL.name());
-            properties.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG,
-                    new File(kafkaSslProperties.getTrustStoreLocation()).getAbsolutePath());
-            properties.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, kafkaSslProperties.getTrustStorePassword());
-            properties.put(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG, kafkaSslProperties.getKeyStoreType());
-            properties.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, kafkaSslProperties.getTrustStoreType());
-            properties.put(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG,
-                    new File(kafkaSslProperties.getKeyStoreLocation()).getAbsolutePath());
-            properties.put(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, kafkaSslProperties.getKeyStorePassword());
-            properties.put(SslConfigs.SSL_KEY_PASSWORD_CONFIG, kafkaSslProperties.getKeyPassword());
-        }
     }
 }
