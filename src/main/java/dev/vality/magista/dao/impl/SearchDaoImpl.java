@@ -432,7 +432,12 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                                                      CommonSearchQueryParams commonParams,
                                                                      List<String> invoiceIds) {
         paymentParameterSource
-                .addValue(PAYMENT_DATA.PARTY_ID, UUID.fromString(commonParams.getPartyId()), EQUALS)
+                .addValue(
+                        PAYMENT_DATA.PARTY_ID,
+                        commonParams.isSetPartyId()
+                                ? UUID.fromString(commonParams.getPartyId())
+                                : null,
+                        EQUALS)
                 .addInConditionValue(PAYMENT_DATA.PARTY_SHOP_ID, commonParams.getShopIds())
                 .addInConditionValue(PAYMENT_DATA.INVOICE_ID, invoiceIds);
         return paymentParameterSource;
