@@ -32,7 +32,7 @@ public class PaymentTerminalRecieptEventMapper implements PaymentMapper {
                 .getPayload()
                 .getInvoicePaymentSessionChange()
                 .getPayload()
-                .getSessionInteractionRequested()
+                .getSessionInteractionChanged()
                 .getInteraction()
                 .getPaymentTerminalReciept();
 
