@@ -182,6 +182,7 @@ public class PaymentStartedEventMapper implements PaymentMapper {
 
         if (paymentTool.isSetDigitalWallet()) {
             DigitalWallet digitalWallet = paymentTool.getDigitalWallet();
+            paymentData.setPaymentDigitalWalletId(digitalWallet.getId());
             if (digitalWallet.isSetPaymentService()) {
                 paymentData.setPaymentDigitalWalletServiceRefId(digitalWallet.getPaymentService().getId());
             }
