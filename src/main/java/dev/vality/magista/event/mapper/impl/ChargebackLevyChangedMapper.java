@@ -11,7 +11,9 @@ import dev.vality.magista.domain.enums.InvoiceEventType;
 import dev.vality.magista.domain.tables.pojos.ChargebackData;
 import dev.vality.magista.event.ChangeType;
 import dev.vality.magista.event.mapper.ChargebackMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChargebackLevyChangedMapper implements ChargebackMapper {
 
     @Override
