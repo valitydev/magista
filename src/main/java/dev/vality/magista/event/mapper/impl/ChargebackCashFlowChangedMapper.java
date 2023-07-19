@@ -13,10 +13,12 @@ import dev.vality.magista.event.ChangeType;
 import dev.vality.magista.event.mapper.ChargebackMapper;
 import dev.vality.magista.util.DamselUtil;
 import dev.vality.magista.util.FeeType;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class ChargebackCashFlowChangedMapper implements ChargebackMapper {
 
     @Override
