@@ -53,7 +53,7 @@ public class ChargebackCashFlowChangedMapper implements ChargebackMapper {
 
     @Override
     public ChangeType getChangeType() {
-        return ChangeType.INVOICE_PAYMENT_CASH_FLOW_CHANGED;
+        return ChangeType.INVOICE_PAYMENT_CHARGEBACK_CASH_FLOW_CHANGED;
     }
 
 }
