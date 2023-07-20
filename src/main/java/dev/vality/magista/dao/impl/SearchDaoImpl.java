@@ -214,9 +214,6 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                                 .addInConditionValue(
                                                         CHARGEBACK_DATA.CHARGEBACK_ID,
                                                         chargebackSearchQuery.getChargebackIds())
-                                                .addValue(CHARGEBACK_DATA.CHARGEBACK_ID,
-                                                        chargebackSearchQuery.getChargebackId(),
-                                                        EQUALS)
                                                 .addInConditionValue(CHARGEBACK_DATA.CHARGEBACK_STATUS,
                                                         chargebackSearchQuery.isSetChargebackStatuses()
                                                                 ? toEnumFields(
