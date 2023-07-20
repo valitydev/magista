@@ -130,7 +130,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>magista-proto</artifactId>
-            <version>1.44-5352f74</version>
+            <version>1.48-e46bba2</version>
         </dependency>
         <dependency>
             <groupId>dev.vality.woody</groupId>
