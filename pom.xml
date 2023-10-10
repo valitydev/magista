@@ -7,11 +7,11 @@
     <parent>
         <groupId>dev.vality</groupId>
         <artifactId>service-parent-pom</artifactId>
-        <version>1.0.19</version>
+        <version>1.0.20</version>
     </parent>
 
     <artifactId>magista</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <name>magista</name>
@@ -120,12 +120,12 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>damsel</artifactId>
-            <version>1.597-bfedcb9</version>
+            <version>1.606-f718741</version>
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>payout-manager-proto</artifactId>
-            <version>1.36-063163d</version>
+            <version>1.38-635dc24</version>
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
@@ -157,7 +157,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>machinegun-proto</artifactId>
-            <version>1.39-07767de</version>
+            <version>1.41-96f7f11</version>
         </dependency>
 
         <!--Test libs-->
@@ -174,7 +174,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>testcontainers-annotations</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -210,12 +210,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.shared</groupId>
                         <artifactId>maven-filtering</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.3.1</version>
                     </dependency>
                 </dependencies>
                 <configuration>
