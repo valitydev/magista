@@ -1,5 +1,5 @@
 server:
-  port: '@server.port@'
+  port: ${server.port}
 
 spring:
   datasource:
@@ -41,7 +41,7 @@ info:
 
 management:
   server:
-    port: '@management.port@'
+    port: ${management.port}
   metrics:
     export:
       prometheus:
