@@ -23,6 +23,8 @@ public enum ChangeType {
             new IsNullCondition().not()),
     INVOICE_PAYMENT_CASH_FLOW_CHANGED("invoice_payment_change.payload.invoice_payment_cash_flow_changed",
             new IsNullCondition().not()),
+    INVOICE_PAYMENT_CASH_CHANGED("invoice_payment_change.payload.invoice_payment_cash_changed",
+            new IsNullCondition().not()),
     INVOICE_PAYMENT_ADJUSTMENT_CREATED(
             "invoice_payment_change.payload.invoice_payment_adjustment_change.payload.invoice_payment_adjustment_created",
             new IsNullCondition().not()),
