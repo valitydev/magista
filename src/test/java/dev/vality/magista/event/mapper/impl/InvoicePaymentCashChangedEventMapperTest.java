@@ -19,8 +19,6 @@ class InvoicePaymentCashChangedEventMapperTest {
 
     @Test
     void map() {
-        var mapper = new InvoicePaymentCashChangedEventMapper();
-
         InvoiceChange invoiceChange = new InvoiceChange();
         InvoicePaymentChange invoicePaymentChange = new InvoicePaymentChange();
         InvoicePaymentChangePayload payload = new InvoicePaymentChangePayload();
@@ -33,6 +31,7 @@ class InvoicePaymentCashChangedEventMapperTest {
         MachineEvent machineEvent = new MachineEvent();
         machineEvent.setEventId(100L);
         machineEvent.setCreatedAt(TypeUtil.temporalToString(LocalDateTime.now()));
+        var mapper = new InvoicePaymentCashChangedEventMapper();
         PaymentData paymentData = mapper.map(invoiceChange, machineEvent);
 
         Assertions.assertEquals(AMOUNT, paymentData.getPaymentAmount());
