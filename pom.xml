@@ -7,7 +7,7 @@
     <parent>
         <groupId>dev.vality</groupId>
         <artifactId>service-parent-pom</artifactId>
-        <version>2.1.5</version>
+        <version>2.1.8</version>
     </parent>
 
     <artifactId>magista</artifactId>
@@ -122,12 +122,12 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>damsel</artifactId>
-            <version>1.597-bfedcb9</version>
+            <version>1.611-958e5f0</version>
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>payout-manager-proto</artifactId>
-            <version>1.36-063163d</version>
+            <version>1.39-b079679</version>
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
@@ -159,7 +159,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>machinegun-proto</artifactId>
-            <version>1.39-07767de</version>
+            <version>1.41-96f7f11</version>
         </dependency>
 
         <!--Test libs-->
