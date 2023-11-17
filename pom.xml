@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>magista</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
 
     <name>magista</name>
@@ -132,7 +132,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>magista-proto</artifactId>
-            <version>1.48-e46bba2</version>
+            <version>1.50-4383410</version>
         </dependency>
         <dependency>
             <groupId>dev.vality.woody</groupId>
