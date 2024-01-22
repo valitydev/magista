@@ -320,6 +320,10 @@ public class PaymentsSearchDaoImplTest {
         searchQuery.getPaymentParams().setErrorMessage("notest");
         payments = searchDao.getPayments(searchQuery);
         Assertions.assertTrue(payments.isEmpty());
+
+        searchQuery.getPaymentParams().setErrorMessage("test.");
+        payments = searchDao.getPayments(searchQuery);
+        assertEquals(1, payments.size());
     }
 
     private PaymentSearchQuery buildSearchQuery() {
