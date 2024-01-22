@@ -394,6 +394,16 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                 ? paymentParams.getFromPaymentDomainRevision()
                                 : null,
                         GREATER_OR_EQUAL)
+                .addValue(PAYMENT_DATA.PAYMENT_EXTERNAL_FAILURE,
+                        paymentParams.isSetErrorMessage()
+                                ? "%" + paymentParams.getErrorMessage() + "%"
+                                : null,
+                        LIKE)
+                .addValue(PAYMENT_DATA.PAYMENT_EXTERNAL_FAILURE_REASON,
+                        paymentParams.isSetErrorMessage()
+                                ? "%" + paymentParams.getErrorMessage() + "%"
+                                : null,
+                        LIKE)
                 .addValue(PAYMENT_DATA.PAYMENT_DOMAIN_REVISION,
                         paymentParams.isSetToPaymentDomainRevision()
                                 ? paymentParams.getToPaymentDomainRevision()

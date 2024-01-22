@@ -14,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.time.Instant;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @PostgresqlSpringBootITest
@@ -305,6 +306,20 @@ public class PaymentsSearchDaoImplTest {
         searchQuery.getPaymentParams().setPaymentSystem(new PaymentSystemRef("mastercard"));
         var payments = searchDao.getPayments(searchQuery);
         assertEquals(1, payments.size());
+    }
+
+
+    @Test
+    @Sql("classpath:data/sql/search/payment_external_failure_search_data.sql")
+    public void testSearchByErrorCodePaymentSystem() {
+        PaymentSearchQuery searchQuery = buildSearchQuery();
+        searchQuery.getPaymentParams().setErrorMessage("test");
+        var payments = searchDao.getPayments(searchQuery);
+        assertEquals(1, payments.size());
+
+        searchQuery.getPaymentParams().setErrorMessage("notest");
+        payments = searchDao.getPayments(searchQuery);
+        Assertions.assertTrue(payments.isEmpty());
     }
 
     private PaymentSearchQuery buildSearchQuery() {
