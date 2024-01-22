@@ -394,6 +394,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                 ? paymentParams.getFromPaymentDomainRevision()
                                 : null,
                         GREATER_OR_EQUAL)
+
                 .addValue(PAYMENT_DATA.PAYMENT_DOMAIN_REVISION,
                         paymentParams.isSetToPaymentDomainRevision()
                                 ? paymentParams.getToPaymentDomainRevision()
@@ -412,6 +413,13 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                 : null,
                         LESS_OR_EQUAL)
                 .addValue(PAYMENT_DATA.EXTERNAL_ID, externalId, EQUALS);
+        if (paymentParams.isSetErrorMessage()) {
+            conditionParameterSource
+                    .addOrCondition(PAYMENT_DATA.PAYMENT_EXTERNAL_FAILURE
+                            .like("%" + paymentParams.getErrorMessage() + "%"))
+                    .addOrCondition(PAYMENT_DATA.PAYMENT_EXTERNAL_FAILURE_REASON
+                            .like("%" + paymentParams.getErrorMessage() + "%"));
+        }
         if (paymentParams.isSetPaymentTokenProvider()) {
             conditionParameterSource.addOrCondition(
                     PAYMENT_DATA.PAYMENT_BANK_CARD_TOKEN_PROVIDER
