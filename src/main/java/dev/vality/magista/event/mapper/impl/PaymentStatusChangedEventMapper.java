@@ -47,7 +47,7 @@ public class PaymentStatusChangedEventMapper implements PaymentMapper {
             InvoicePaymentCaptured invoicePaymentCaptured = invoicePaymentStatusChanged.getStatus().getCaptured();
             if (invoicePaymentCaptured.isSetCost()) {
                 Cash cost = invoicePaymentCaptured.getCost();
-                paymentData.setPaymentAmount(cost.getAmount());
+                paymentData.setPaymentOriginAmount(cost.getAmount());
                 paymentData.setPaymentCurrencyCode(cost.getCurrency().getSymbolicCode());
             }
         }

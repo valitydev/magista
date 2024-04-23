@@ -31,7 +31,7 @@ public class PaymentCaptureStartedMapper implements PaymentMapper {
 
         if (invoicePaymentCaptureStarted.getData().isSetCash()) {
             Cash cash = invoicePaymentCaptureStarted.getData().getCash();
-            paymentData.setPaymentAmount(cash.getAmount());
+            paymentData.setPaymentOriginAmount(cash.getAmount());
             paymentData.setPaymentCurrencyCode(cash.getCurrency().getSymbolicCode());
         }
 
