@@ -2,10 +2,10 @@ package dev.vality.magista.endpoint;
 
 import dev.vality.magista.MerchantStatisticsServiceSrv;
 import dev.vality.woody.thrift.impl.http.THServiceBuilder;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
 @WebServlet("/v3/stat")
