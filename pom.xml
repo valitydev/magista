@@ -32,6 +32,7 @@
         <db.user>postgres</db.user>
         <db.password>postgres</db.password>
         <db.schema>mst</db.schema>
+        <shared-resources.version>3.0.0</shared-resources.version>
     </properties>
 
     <dependencies>
@@ -112,10 +113,6 @@
             <groupId>software.amazon.msk</groupId>
             <artifactId>aws-msk-iam-auth</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>jakarta.servlet</groupId>-->
-<!--            <artifactId>jakarta.servlet-api</artifactId>-->
-<!--        </dependency>-->
 
         <!-- dev.vality libs-->
         <dependency>
