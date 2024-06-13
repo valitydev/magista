@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>magista</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
 
     <name>magista</name>
@@ -135,7 +135,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>payout-manager-proto</artifactId>
-            <version>1.39-b079679</version>
+            <version>1.41-eb4091a</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.annotation</groupId>
