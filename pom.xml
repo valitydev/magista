@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>magista</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
 
     <name>magista</name>
@@ -189,7 +189,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>machinegun-proto</artifactId>
-            <version>1.41-96f7f11</version>
+            <version>1.43-3decc8f</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.annotation</groupId>
