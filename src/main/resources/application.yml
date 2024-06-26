@@ -25,6 +25,9 @@ spring:
       properties:
         max.poll.interval.ms: 60000
         session.timeout.ms: 60000
+  threads:
+    virtual:
+      enabled: true
 
 retry-policy:
   maxAttempts: -1
