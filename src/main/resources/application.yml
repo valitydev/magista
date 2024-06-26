@@ -5,16 +5,16 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
-    url: '@db.url@'
-    username: '@db.user@'
-    password: '@db.password@'
+    url: ${db.url}
+    username: ${db.user}
+    password: ${db.password}
     hikari:
       maximum-pool-size: 3
       idle-timeout: 30000
       data-source-properties:
         reWriteBatchedInserts: true
   application:
-    name: '@project.name@'
+    name: ${project.name}
   flyway:
     schemas: mst
   kafka:
@@ -40,17 +40,14 @@ cache:
 
 info:
   damsel:
-    version: '@damsel.version@'
+    version: ${damsel.version}
 
 management:
   server:
     port: ${management.port}
   metrics:
-    export:
-      prometheus:
-        enabled: false
     tags:
-      application: '@project.name@'
+      application: ${project.name}
   endpoint:
     health:
       probes:
@@ -64,6 +61,10 @@ management:
     web:
       exposure:
         include: health,info,prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: false
 
 service:
   partyManagement:
