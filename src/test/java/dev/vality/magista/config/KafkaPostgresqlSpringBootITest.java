@@ -16,12 +16,10 @@ import java.lang.annotation.Target;
         properties = {
                 "kafka.topics.invoicing.consume.enabled=true",
                 "kafka.topics.invoice-template.consume.enabled=true",
-                "kafka.topics.pm-events-payout.consume.enabled=true",
                 "kafka.state.cache.size=0"},
         topicsKeys = {
                 "kafka.topics.invoicing.id",
-                "kafka.topics.invoice-template.id",
-                "kafka.topics.pm-events-payout.id"})
+                "kafka.topics.invoice-template.id"})
 @KafkaSpringBootTest
 public @interface KafkaPostgresqlSpringBootITest {
 }

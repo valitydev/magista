@@ -1,9 +1,7 @@
 package dev.vality.magista.config;
 
 import dev.vality.machinegun.eventsink.SinkEvent;
-import dev.vality.magista.serde.PayoutEventDeserializer;
 import dev.vality.magista.serde.SinkEventDeserializer;
-import dev.vality.payout.manager.Event;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -35,12 +33,6 @@ public class KafkaConfig {
     @Value("${kafka.topics.invoice-template.consume.concurrency}")
     private int invoiceTemplateConcurrency;
 
-    @Value("${kafka.topics.pm-events-payout.consume.max-poll-records}")
-    private String payoutMaxPollRecords;
-
-    @Value("${kafka.topics.pm-events-payout.consume.concurrency}")
-    private int payoutConcurrency;
-
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, SinkEvent> invoicingListenerContainerFactory(
             KafkaProperties kafkaProperties) {
@@ -66,20 +58,6 @@ public class KafkaConfig {
                 invoiceTemplateMaxPollRecords,
                 kafkaProperties);
         containerFactory.setConcurrency(invoiceTemplateConcurrency);
-        return containerFactory;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, Event> payoutListenerContainerFactory(
-            KafkaProperties kafkaProperties) {
-        var containerFactory = new ConcurrentKafkaListenerContainerFactory<String, Event>();
-        configureContainerFactory(
-                containerFactory,
-                new PayoutEventDeserializer(),
-                kafkaProperties.getClientId() + "-pm-events-payout",
-                payoutMaxPollRecords,
-                kafkaProperties);
-        containerFactory.setConcurrency(payoutConcurrency);
         return containerFactory;
     }
 
@@ -112,7 +90,7 @@ public class KafkaConfig {
     }
 
     private Map<String, Object> defaultProperties(KafkaProperties kafkaProperties) {
-        var properties = kafkaProperties.buildConsumerProperties();
+        var properties = kafkaProperties.buildConsumerProperties(null);
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, EARLIEST.name().toLowerCase());
         properties.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         return properties;

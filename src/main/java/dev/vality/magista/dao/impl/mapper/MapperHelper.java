@@ -11,7 +11,6 @@ import dev.vality.magista.InvoicePaymentFlowHold;
 import dev.vality.magista.InvoicePaymentFlowInstant;
 import dev.vality.magista.OnHoldExpiration;
 import dev.vality.magista.Payer;
-import dev.vality.magista.PayoutStatus;
 import dev.vality.magista.*;
 import dev.vality.magista.domain.enums.*;
 import dev.vality.magista.exception.NotFoundException;
@@ -27,7 +26,6 @@ import java.util.Optional;
 import static dev.vality.magista.domain.Tables.CHARGEBACK_DATA;
 import static dev.vality.magista.domain.tables.InvoiceData.INVOICE_DATA;
 import static dev.vality.magista.domain.tables.PaymentData.PAYMENT_DATA;
-import static dev.vality.magista.domain.tables.Payout.PAYOUT;
 import static dev.vality.magista.domain.tables.RefundData.REFUND_DATA;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -170,57 +168,6 @@ public class MapperHelper {
             case refunded -> InvoicePaymentStatus.refunded(new InvoicePaymentRefunded());
             case processed -> InvoicePaymentStatus.processed(new InvoicePaymentProcessed());
             case charged_back -> InvoicePaymentStatus.charged_back(new InvoicePaymentChargedBack());
-        };
-    }
-
-    static PayoutToolInfo toPayoutToolInfo(ResultSet rs) throws SQLException {
-        var payoutType = TypeUtil.toEnumField(rs.getString(PAYOUT.PAYOUT_TOOL_TYPE.getName()),
-                dev.vality.magista.domain.enums.PayoutToolType.class);
-        return switch (payoutType) {
-            case russian_bank_account -> PayoutToolInfo.russian_bank_account(new RussianBankAccount()
-                    .setAccount(rs.getString(PAYOUT.PAYOUT_TOOL_RUSSIAN_BANK_ACCOUNT_ACCOUNT.getName()))
-                    .setBankName(rs.getString(PAYOUT.PAYOUT_TOOL_RUSSIAN_BANK_ACCOUNT_BANK_NAME.getName()))
-                    .setBankBik(rs.getString(PAYOUT.PAYOUT_TOOL_RUSSIAN_BANK_ACCOUNT_BANK_BIK.getName()))
-                    .setBankPostAccount(
-                            rs.getString(PAYOUT.PAYOUT_TOOL_RUSSIAN_BANK_ACCOUNT_BANK_POST_ACCOUNT.getName()))
-            );
-            case international_bank_account -> PayoutToolInfo.international_bank_account(
-                    new InternationalBankAccount()
-                            .setBank(new InternationalBankDetails()
-                                    .setName(rs.getString(
-                                            PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_BANK_NAME.getName()))
-                                    .setCountry(TypeUtil.toEnumField(
-                                            rs.getString(
-                                                    PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_BANK_NAME.getName()),
-                                            CountryCode.class))
-                                    .setBic(rs.getString(
-                                            PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_BANK_BIC.getName()))
-                                    .setAddress(rs.getString(
-                                            PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_BANK_ADDRESS.getName()))
-                                    .setAbaRtn(rs.getString(
-                                            PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_BANK_ABA_RTN.getName())))
-                            .setIban(rs.getString(PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_IBAN.getName()))
-                            .setNumber(rs.getString(PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_NUMBER.getName()))
-                            .setCorrespondentAccount(new InternationalBankAccount()
-                                    .setNumber(rs.getString(
-                                            PAYOUT.PAYOUT_TOOL_INTERNATIONAL_BANK_ACCOUNT_CORR_ACCOUNT.getName())))
-            );
-            case wallet_info -> PayoutToolInfo.wallet_info(
-                    new WalletInfo(rs.getString(PAYOUT.PAYOUT_TOOL_WALLET_ID.getName())));
-            case payment_institution_account -> PayoutToolInfo.payment_institution_account(
-                    new PaymentInstitutionAccount());
-        };
-    }
-
-    static PayoutStatus toPayoutStatus(ResultSet rs) throws SQLException {
-        var payoutStatus = TypeUtil.toEnumField(rs.getString(PAYOUT.STATUS.getName()),
-                dev.vality.magista.domain.enums.PayoutStatus.class);
-        return switch (payoutStatus) {
-            case unpaid -> PayoutStatus.unpaid(new PayoutUnpaid());
-            case paid -> PayoutStatus.paid(new PayoutPaid());
-            case cancelled -> PayoutStatus
-                    .cancelled(new PayoutCancelled(rs.getString(PAYOUT.CANCELLED_DETAILS.getName())));
-            case confirmed -> PayoutStatus.confirmed(new PayoutConfirmed());
         };
     }
 
