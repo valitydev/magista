@@ -21,16 +21,14 @@ public class MerchantStatisticsHandler implements MerchantStatisticsServiceSrv.I
     private final MerchantStatisticsService merchantStatisticsService;
 
     @Override
-    public StatInvoiceResponse searchInvoices(InvoiceSearchQuery invoiceSearchQuery)
-            throws BadContinuationToken, LimitExceeded, InvalidRequest, TException {
+    public StatInvoiceResponse searchInvoices(InvoiceSearchQuery invoiceSearchQuery) {
         return handleSearchQuery(
                 () -> merchantStatisticsService.getInvoices(invoiceSearchQuery),
                 invoiceSearchQuery.getCommonSearchQueryParams());
     }
 
     @Override
-    public StatPaymentResponse searchPayments(PaymentSearchQuery paymentSearchQuery)
-            throws BadContinuationToken, LimitExceeded, InvalidRequest, TException {
+    public StatPaymentResponse searchPayments(PaymentSearchQuery paymentSearchQuery) {
         return handleSearchQuery(
                 () -> merchantStatisticsService.getPayments(paymentSearchQuery),
                 paymentSearchQuery.getCommonSearchQueryParams());
@@ -38,31 +36,21 @@ public class MerchantStatisticsHandler implements MerchantStatisticsServiceSrv.I
 
     @Override
     public StatRefundResponse searchRefunds(RefundSearchQuery refundSearchQuery)
-            throws BadContinuationToken, LimitExceeded, InvalidRequest, TException {
+            throws TException {
         return handleSearchQuery(
                 () -> merchantStatisticsService.getRefunds(refundSearchQuery),
                 refundSearchQuery.getCommonSearchQueryParams());
     }
 
     @Override
-    public StatChargebackResponse searchChargebacks(ChargebackSearchQuery chargebackSearchQuery)
-            throws BadContinuationToken, LimitExceeded, InvalidRequest, TException {
+    public StatChargebackResponse searchChargebacks(ChargebackSearchQuery chargebackSearchQuery) {
         return handleSearchQuery(
                 () -> merchantStatisticsService.getChargebacks(chargebackSearchQuery),
                 chargebackSearchQuery.getCommonSearchQueryParams());
     }
 
     @Override
-    public StatPayoutResponse searchPayouts(PayoutSearchQuery payoutSearchQuery)
-            throws BadContinuationToken, LimitExceeded, InvalidRequest, TException {
-        return handleSearchQuery(
-                () -> merchantStatisticsService.getPayouts(payoutSearchQuery),
-                payoutSearchQuery.getCommonSearchQueryParams());
-    }
-
-    @Override
-    public StatInvoiceTemplateResponse searchInvoiceTemplates(InvoiceTemplateSearchQuery invoiceTemplateSearchQuery)
-            throws BadContinuationToken, LimitExceeded, InvalidRequest, TException {
+    public StatInvoiceTemplateResponse searchInvoiceTemplates(InvoiceTemplateSearchQuery invoiceTemplateSearchQuery) {
         return handleSearchQuery(
                 () -> merchantStatisticsService.getInvoiceTemplates(invoiceTemplateSearchQuery),
                 invoiceTemplateSearchQuery.getCommonSearchQueryParams());

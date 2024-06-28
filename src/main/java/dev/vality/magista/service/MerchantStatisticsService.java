@@ -69,24 +69,6 @@ public class MerchantStatisticsService {
                                 StatRefund::getCreatedAt));
     }
 
-    public StatPayoutResponse getPayouts(PayoutSearchQuery searchQuery) {
-        var queryCopyWithNullToken = new PayoutSearchQuery(searchQuery);
-        queryCopyWithNullToken.getCommonSearchQueryParams().setContinuationToken(null);
-        tokenGenService.validateToken(
-                queryCopyWithNullToken,
-                searchQuery.getCommonSearchQueryParams().getContinuationToken());
-        List<StatPayout> payouts = searchDao.getPayouts(searchQuery);
-        return new StatPayoutResponse()
-                .setPayouts(payouts)
-                .setContinuationToken(
-                        tokenGenService.generateToken(
-                                queryCopyWithNullToken,
-                                searchQuery.getCommonSearchQueryParams(),
-                                payouts,
-                                TokenUtil::getLastElement,
-                                StatPayout::getCreatedAt));
-    }
-
     public StatChargebackResponse getChargebacks(ChargebackSearchQuery searchQuery) {
         var queryCopyWithNullToken = new ChargebackSearchQuery(searchQuery);
         queryCopyWithNullToken.getCommonSearchQueryParams().setContinuationToken(null);

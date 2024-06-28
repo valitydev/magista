@@ -12,8 +12,6 @@ public interface SearchDao {
 
     List<StatRefund> getRefunds(RefundSearchQuery refundSearchQuery);
 
-    List<StatPayout> getPayouts(PayoutSearchQuery payoutSearchQuery);
-
     List<StatChargeback> getChargebacks(ChargebackSearchQuery chargebackSearchQuery);
 
     List<StatInvoiceTemplate> getInvoiceTemplates(InvoiceTemplateSearchQuery invoiceTemplateSearchQuery);

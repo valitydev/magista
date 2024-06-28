@@ -90,12 +90,6 @@ kafka:
         enabled: false
         max-poll-records: 50
         concurrency: 1
-    pm-events-payout:
-      id: pm-events-payout
-      consume:
-        enabled: false
-        max-poll-records: 50
-        concurrency: 1
 
 token-gen:
   key: jXnZr4u7x!A%D*G-KaPvSgVkYp3s5v8t/B?E(H+MbQeThWmZq4t7w9z$C&F)J@Nc
