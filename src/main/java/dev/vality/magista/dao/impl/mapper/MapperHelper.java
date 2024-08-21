@@ -205,6 +205,8 @@ public class MapperHelper {
                             new InvoicePaymentChargebackCategoryAuthorisation()));
             case processing_error -> invoicePaymentChargebackReason.setCategory(InvoicePaymentChargebackCategory
                     .processing_error(new InvoicePaymentChargebackCategoryProcessingError()));
+            case system_set -> invoicePaymentChargebackReason.setCategory(
+                    InvoicePaymentChargebackCategory.system_set(new InvoicePaymentChargebackCategorySystemSet()));
         };
     }
 
