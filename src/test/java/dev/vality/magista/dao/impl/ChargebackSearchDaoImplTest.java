@@ -14,14 +14,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @PostgresqlSpringBootITest
-public class ChargebackSearchDaoImplTest {
+class ChargebackSearchDaoImplTest {
 
     @Autowired
     private SearchDaoImpl searchDao;
 
     @Test
     @Sql("classpath:data/sql/search/chargeback_search_data.sql")
-    public void chargebackSearchTest() {
+    void chargebackSearchTest() {
         ChargebackSearchQuery chargebackSearchQuery = new ChargebackSearchQuery()
                 .setCommonSearchQueryParams(new CommonSearchQueryParams()
                         .setPartyId("party_id_1")
@@ -29,7 +29,7 @@ public class ChargebackSearchDaoImplTest {
                         .setFromTime("2016-10-25T15:45:20Z")
                         .setToTime("3018-10-25T18:10:10Z"));
         List<StatChargeback> chargebacks = searchDao.getChargebacks(chargebackSearchQuery);
-        assertEquals(3, chargebacks.size());
+        assertEquals(4, chargebacks.size());
 
         chargebackSearchQuery
                 .setChargebackCategories(List.of(
@@ -46,7 +46,7 @@ public class ChargebackSearchDaoImplTest {
         ));
 
         chargebacks = searchDao.getChargebacks(chargebackSearchQuery);
-        assertEquals(2, chargebacks.size());
+        assertEquals(3, chargebacks.size());
 
         chargebackSearchQuery.unsetChargebackStatuses();
         chargebackSearchQuery.setChargebackStages(List.of(
@@ -56,5 +56,16 @@ public class ChargebackSearchDaoImplTest {
 
         chargebacks = searchDao.getChargebacks(chargebackSearchQuery);
         assertEquals(2, chargebacks.size());
+
+        chargebackSearchQuery.unsetChargebackStatuses();
+        chargebackSearchQuery.unsetChargebackStages();
+        chargebackSearchQuery
+                .setChargebackCategories(List.of(
+                        InvoicePaymentChargebackCategory.system_set(new InvoicePaymentChargebackCategorySystemSet())));
+
+        chargebacks = searchDao.getChargebacks(chargebackSearchQuery);
+        assertEquals(1, chargebacks.size());
+
+
     }
 }

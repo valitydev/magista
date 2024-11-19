@@ -35,8 +35,7 @@ public class MerchantStatisticsHandler implements MerchantStatisticsServiceSrv.I
     }
 
     @Override
-    public StatRefundResponse searchRefunds(RefundSearchQuery refundSearchQuery)
-            throws TException {
+    public StatRefundResponse searchRefunds(RefundSearchQuery refundSearchQuery) {
         return handleSearchQuery(
                 () -> merchantStatisticsService.getRefunds(refundSearchQuery),
                 refundSearchQuery.getCommonSearchQueryParams());
@@ -44,9 +43,12 @@ public class MerchantStatisticsHandler implements MerchantStatisticsServiceSrv.I
 
     @Override
     public StatChargebackResponse searchChargebacks(ChargebackSearchQuery chargebackSearchQuery) {
-        return handleSearchQuery(
+        log.info("Receive searchChargebacks query: {}", chargebackSearchQuery);
+        StatChargebackResponse statChargebackResponse = handleSearchQuery(
                 () -> merchantStatisticsService.getChargebacks(chargebackSearchQuery),
                 chargebackSearchQuery.getCommonSearchQueryParams());
+        log.info("Response searchChargebacks with {} items", statChargebackResponse.chargebacks.size());
+        return statChargebackResponse;
     }
 
     @Override
