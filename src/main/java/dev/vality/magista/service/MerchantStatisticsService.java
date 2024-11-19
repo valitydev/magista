@@ -4,10 +4,12 @@ import dev.vality.magista.*;
 import dev.vality.magista.dao.SearchDao;
 import dev.vality.magista.util.TokenUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MerchantStatisticsService {
@@ -76,6 +78,7 @@ public class MerchantStatisticsService {
                 queryCopyWithNullToken,
                 searchQuery.getCommonSearchQueryParams().getContinuationToken());
         List<StatChargeback> chargebacks = searchDao.getChargebacks(searchQuery);
+        log.debug("Get chargebacks: {}", chargebacks);
         return new StatChargebackResponse()
                 .setChargebacks(chargebacks)
                 .setContinuationToken(
