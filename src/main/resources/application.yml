@@ -96,6 +96,6 @@ token-gen:
 
 testcontainers:
   postgresql:
-    tag: '11.4'
+    tag: '17.4'
   kafka:
     tag: '6.2.0'

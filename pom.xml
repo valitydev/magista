@@ -34,6 +34,7 @@
         <db.password>postgres</db.password>
         <db.schema>mst</db.schema>
         <shared-resources.version>3.0.0</shared-resources.version>
+        <flyway.version>11.6.0</flyway.version>
     </properties>
 
     <dependencies>
@@ -73,10 +74,12 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
@@ -216,6 +219,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
                 <configuration>
                     <url>${db.url}</url>
                     <user>${db.user}</user>
