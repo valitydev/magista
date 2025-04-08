@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,10 +28,10 @@ public class ChargebackServiceTest {
     @Autowired
     public PaymentChargebackService paymentChargebackService;
 
-    @MockBean
+    @MockitoBean
     public PaymentService paymentService;
 
-    @SpyBean
+    @MockitoSpyBean
     public ChargebackDao chargebackDao;
 
     @BeforeEach
