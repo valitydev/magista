@@ -21,9 +21,9 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.Instant;
 import java.util.*;
@@ -64,19 +64,19 @@ public class InvoiceListenerTest {
     @Autowired
     private InvoicingListener invoicingListener;
 
-    @MockBean
+    @MockitoBean
     private InvoiceService invoiceService;
 
-    @MockBean
+    @MockitoBean
     private PaymentService paymentService;
 
-    @MockBean
+    @MockitoBean
     private PaymentRefundService paymentRefundService;
 
-    @MockBean
+    @MockitoBean
     private PaymentAdjustmentService paymentAdjustmentService;
 
-    @MockBean
+    @MockitoBean
     private PaymentChargebackService paymentChargebackService;
 
     @Test
