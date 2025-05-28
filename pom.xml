@@ -113,11 +113,6 @@
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
-            <artifactId>payout-manager-proto</artifactId>
-            <version>1.41-eb4091a</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.vality</groupId>
             <artifactId>magista-proto</artifactId>
             <version>1.54-e49ad10</version>
         </dependency>
