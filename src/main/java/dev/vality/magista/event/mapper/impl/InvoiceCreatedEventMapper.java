@@ -47,10 +47,6 @@ public class InvoiceCreatedEventMapper implements InvoiceMapper {
             invoiceData.setInvoiceCartJson(DamselUtil.toJsonString(details.getCart()));
         }
 
-        if (invoice.isSetPartyRevision()) {
-            invoiceData.setInvoicePartyRevision(invoice.getPartyRevision());
-        }
-
         if (invoice.isSetContext()) {
             Content content = invoice.getContext();
             invoiceData.setInvoiceContextType(content.getType());

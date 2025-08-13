@@ -10,6 +10,7 @@ import dev.vality.geck.common.util.TBaseUtil;
 import dev.vality.geck.common.util.TypeUtil;
 import dev.vality.geck.serializer.kit.tbase.TErrorUtil;
 import dev.vality.machinegun.eventsink.MachineEvent;
+import dev.vality.magista.CustomerPayer;
 import dev.vality.magista.domain.enums.OnHoldExpiration;
 import dev.vality.magista.domain.enums.*;
 import dev.vality.magista.domain.tables.pojos.PaymentData;
@@ -71,10 +72,6 @@ public class PaymentStartedEventMapper implements PaymentMapper {
             paymentData.setPaymentContext(content.getData());
         }
 
-        if (invoicePayment.isSetPartyRevision()) {
-            paymentData.setPaymentPartyRevision(invoicePayment.getPartyRevision());
-        }
-
         Payer payer = invoicePayment.getPayer();
 
         PaymentPayerType payerType = TBaseUtil.unionFieldToEnum(payer, PaymentPayerType.class);
@@ -93,12 +90,6 @@ public class PaymentStartedEventMapper implements PaymentMapper {
                     ClientInfo clientInfo = paymentResource.getClientInfo();
                     paymentData.setPaymentFingerprint(clientInfo.getFingerprint());
                 }
-                break;
-            case customer:
-                CustomerPayer customerPayer = payer.getCustomer();
-                paymentData.setPaymentCustomerId(customerPayer.getCustomerId());
-                mapPaymentTool(paymentData, customerPayer.getPaymentTool());
-                mapContactInfo(paymentData, customerPayer.getContactInfo());
                 break;
             case recurrent:
                 RecurrentPayer recurrentPayer = payer.getRecurrent();

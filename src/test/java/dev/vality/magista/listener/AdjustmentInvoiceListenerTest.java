@@ -107,7 +107,6 @@ public class AdjustmentInvoiceListenerTest {
                                         .pending(
                                                 new InvoicePaymentAdjustmentPending()))
                         .setReason("reason")
-                        .setPartyRevision(1)
                         .setNewCashFlow(
                                 Lists.emptyList())
                         .setOldCashFlowInverse(
