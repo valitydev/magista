@@ -56,7 +56,6 @@ public class ChargebackCreatedMapper implements ChargebackMapper {
                 TBaseUtil.unionFieldToEnum(invoicePaymentChargeback.getReason().getCategory(), ChargebackCategory.class)
         );
         chargeback.setChargebackDomainRevision(invoicePaymentChargeback.getDomainRevision());
-        chargeback.setChargebackPartyRevision(invoicePaymentChargeback.getPartyRevision());
         if (invoicePaymentChargeback.getContext() != null) {
             chargeback.setChargebackContext(invoicePaymentChargeback.getContext().getData());
         }
