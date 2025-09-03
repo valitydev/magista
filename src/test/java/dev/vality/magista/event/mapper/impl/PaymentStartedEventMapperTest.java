@@ -42,6 +42,7 @@ public class PaymentStartedEventMapperTest {
                         .setPayload(InvoicePaymentChangePayload.invoice_payment_started(
                                 new InvoicePaymentStarted().setPayment(new InvoicePayment()
                                         .setPartyRef(new PartyConfigRef(UUID.randomUUID().toString()))
+                                        .setShopRef(new ShopConfigRef(UUID.randomUUID().toString()))
                                         .setCost(new Cash(112L, new CurrencyRef()))
                                         .setCreatedAt("2016-03-22T06:12:27Z")
                                         .setFlow(InvoicePaymentFlow.instant(new InvoicePaymentFlowInstant()))
