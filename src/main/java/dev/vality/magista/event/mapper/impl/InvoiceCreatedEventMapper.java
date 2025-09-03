@@ -32,8 +32,8 @@ public class InvoiceCreatedEventMapper implements InvoiceMapper {
         Invoice invoice = change.getInvoiceCreated().getInvoice();
 
         invoiceData.setInvoiceId(invoice.getId());
-        invoiceData.setPartyId(UUID.fromString(invoice.getOwnerId()));
-        invoiceData.setPartyShopId(invoice.getShopId());
+        invoiceData.setPartyId(UUID.fromString(invoice.getPartyRef().id));
+        invoiceData.setPartyShopId(invoice.getShopRef().id);
         invoiceData.setInvoiceTemplateId(invoice.getTemplateId());
         invoiceData.setInvoiceCreatedAt(TypeUtil.stringToLocalDateTime(invoice.getCreatedAt()));
         invoiceData.setInvoiceDue(TypeUtil.stringToLocalDateTime(invoice.getDue()));

@@ -46,8 +46,8 @@ public class MerchantStatisticsServiceTest {
         var commonSearchQueryParams = new CommonSearchQueryParams();
         commonSearchQueryParams.setFromTime(Instant.now().minusSeconds(60).toString());
         commonSearchQueryParams.setToTime(Instant.now().plusSeconds(60).toString());
-        commonSearchQueryParams.setPartyId(invoiceTemplate.getOwnerId());
-        commonSearchQueryParams.setShopIds(List.of(invoiceTemplate.getShopId()));
+        commonSearchQueryParams.setPartyId(invoiceTemplate.getPartyRef().id);
+        commonSearchQueryParams.setShopIds(List.of(invoiceTemplate.getShopRef().id));
         commonSearchQueryParams.setLimit(1000);
         commonSearchQueryParams.setContinuationToken(null);
         var searchQuery = new InvoiceTemplateSearchQuery();

@@ -106,11 +106,11 @@ public class PaymentStartedEventMapper implements PaymentMapper {
         paymentData.setEventType(InvoiceEventType.INVOICE_PAYMENT_STARTED);
         paymentData.setEventId(machineEvent.getEventId());
 
-        Optional.ofNullable(invoicePayment.getOwnerId())
+        Optional.ofNullable(invoicePayment.getPartyRef().id)
                 .map(UUID::fromString)
                 .ifPresent(paymentData::setPartyId);
 
-        paymentData.setPartyShopId(invoicePayment.getShopId());
+        paymentData.setPartyShopId(invoicePayment.getShopRef().id);
         paymentData.setEventCreatedAt(TypeUtil.stringToLocalDateTime(machineEvent.getCreatedAt()));
         paymentData.setInvoiceId(invoiceId);
         paymentData.setPaymentId(paymentId);
