@@ -10,7 +10,7 @@ import dev.vality.magista.domain.tables.pojos.PaymentData;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PaymentStartedEventMapperTest {
 
@@ -39,6 +39,7 @@ public class PaymentStartedEventMapperTest {
                         .setId("124")
                         .setPayload(InvoicePaymentChangePayload.invoice_payment_started(
                                 new InvoicePaymentStarted().setPayment(new InvoicePayment()
+                                        .setPartyRef(new PartyConfigRef("test"))
                                         .setCost(new Cash(112L, new CurrencyRef()))
                                         .setCreatedAt("2016-03-22T06:12:27Z")
                                         .setFlow(InvoicePaymentFlow.instant(new InvoicePaymentFlowInstant()))

@@ -111,11 +111,13 @@ public class InvoiceListenerTest {
         Invoice invoice = randomThriftOnlyRequiredFields(Invoice.class)
                 .setId(SOURCE_ID)
                 .setPartyRef(new PartyConfigRef(UUID.randomUUID().toString()))
+                .setShopRef(new ShopConfigRef(UUID.randomUUID().toString()))
                 .setCreatedAt(Instant.now().toString())
                 .setDue(Instant.now().toString());
         InvoicePayment payment = randomThriftOnlyRequiredFields(InvoicePayment.class)
                 .setId(SOURCE_ID)
                 .setPartyRef(new PartyConfigRef(UUID.randomUUID().toString()))
+                .setShopRef(new ShopConfigRef(UUID.randomUUID().toString()))
                 .setFlow(InvoicePaymentFlow.instant(new InvoicePaymentFlowInstant()))
                 .setPayer(Payer.payment_resource(new PaymentResourcePayer()
                         .setResource(new DisposablePaymentResource()
