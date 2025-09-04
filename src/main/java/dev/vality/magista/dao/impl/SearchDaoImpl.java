@@ -308,7 +308,6 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                 .addValue(PAYMENT_DATA.PAYMENT_FINGERPRINT, paymentParams.getPaymentFingerprint(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_FIRST6, paymentParams.getPaymentFirst6(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_BANK_CARD_LAST4, paymentParams.getPaymentLast4(), EQUALS)
-                .addValue(PAYMENT_DATA.PAYMENT_CUSTOMER_ID, paymentParams.getPaymentCustomerId(), EQUALS)
                 .addValue(PAYMENT_DATA.PAYMENT_PROVIDER_ID,
                         paymentParams.isSetPaymentProviderId()
                                 ? Integer.valueOf(paymentParams.getPaymentProviderId())
