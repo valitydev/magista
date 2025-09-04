@@ -1,18 +1,17 @@
 package dev.vality.magista.event.mapper.impl;
 
 import dev.vality.damsel.base.Content;
+import dev.vality.damsel.domain.*;
 import dev.vality.damsel.domain.InvoicePaymentStatus;
 import dev.vality.damsel.domain.PaymentTool;
-import dev.vality.damsel.domain.*;
 import dev.vality.damsel.payment_processing.InvoiceChange;
 import dev.vality.damsel.payment_processing.InvoicePaymentStarted;
 import dev.vality.geck.common.util.TBaseUtil;
 import dev.vality.geck.common.util.TypeUtil;
 import dev.vality.geck.serializer.kit.tbase.TErrorUtil;
 import dev.vality.machinegun.eventsink.MachineEvent;
-import dev.vality.magista.CustomerPayer;
-import dev.vality.magista.domain.enums.OnHoldExpiration;
 import dev.vality.magista.domain.enums.*;
+import dev.vality.magista.domain.enums.OnHoldExpiration;
 import dev.vality.magista.domain.tables.pojos.PaymentData;
 import dev.vality.magista.event.ChangeType;
 import dev.vality.magista.event.mapper.PaymentMapper;

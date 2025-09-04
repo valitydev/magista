@@ -1,17 +1,16 @@
 package dev.vality.magista.dao.impl.mapper;
 
+import dev.vality.damsel.domain.*;
 import dev.vality.damsel.domain.InvoicePaymentRefundStatus;
 import dev.vality.damsel.domain.InvoicePaymentStatus;
 import dev.vality.damsel.domain.PaymentTool;
-import dev.vality.damsel.domain.*;
 import dev.vality.geck.common.util.TypeUtil;
-import dev.vality.magista.CustomerPayer;
+import dev.vality.magista.*;
 import dev.vality.magista.InvoicePaymentFlow;
 import dev.vality.magista.InvoicePaymentFlowHold;
 import dev.vality.magista.InvoicePaymentFlowInstant;
 import dev.vality.magista.OnHoldExpiration;
 import dev.vality.magista.Payer;
-import dev.vality.magista.*;
 import dev.vality.magista.domain.enums.*;
 import dev.vality.magista.exception.NotFoundException;
 import dev.vality.magista.util.DamselUtil;
@@ -102,10 +101,6 @@ public class MapperHelper {
                             .setResource(new DisposablePaymentResource()
                                     .setPaymentTool(buildPaymentTool(rs))
                                     .setClientInfo(buildClientInfo(rs))));
-            case customer -> Payer.customer(new CustomerPayer()
-                    .setCustomerId(rs.getString(PAYMENT_DATA.PAYMENT_CUSTOMER_ID.getName()))
-                    .setPaymentTool(buildPaymentTool(rs))
-                    .setContactInfo(buildContactInfo(rs)));
             case recurrent -> Payer.recurrent(new RecurrentPayer()
                     .setContactInfo(buildContactInfo(rs))
                     .setRecurrentParent(buildRecurrentParent(rs))

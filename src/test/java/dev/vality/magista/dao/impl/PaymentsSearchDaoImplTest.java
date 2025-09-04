@@ -211,16 +211,6 @@ public class PaymentsSearchDaoImplTest {
     }
 
     @Test
-    @Sql("classpath:data/sql/search/payment_customer_id_search_data.sql")
-    public void testFindByCustomerId() {
-        PaymentSearchQuery searchQuery = buildSearchQuery();
-        searchQuery.getPaymentParams().setPaymentCustomerId("test");
-        var payments = searchDao.getPayments(searchQuery);
-        assertEquals(1, payments.size());
-        assertEquals("test", payments.get(0).getPayer().getCustomer().getCustomerId());
-    }
-
-    @Test
     @Sql("classpath:data/sql/search/payment_external_failure_search_data.sql")
     public void testExternalFailure() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
