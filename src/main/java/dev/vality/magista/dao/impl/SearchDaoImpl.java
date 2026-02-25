@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -87,11 +88,14 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
         );
 
         ConditionParameterSource paymentParameterSource = new ConditionParameterSource();
+        List<String> externalIds = new ArrayList<>();
+        if (searchQuery.isSetExternalId()) {
+            externalIds.add(searchQuery.getExternalId());
+        }
         preparePaymentsCondition(
                 paymentParameterSource,
                 searchQuery.getPaymentParams(),
-                searchQuery.getExternalId(),
-                null
+                externalIds
         );
         if (!paymentParameterSource.getConditionFields().isEmpty()
                 || !paymentParameterSource.getOrConditions().isEmpty()) {
@@ -121,16 +125,22 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
     @Override
     public List<StatPayment> getPayments(PaymentSearchQuery searchQuery) {
         CommonSearchQueryParams commonParams = searchQuery.getCommonSearchQueryParams();
-        TimeHolder timeHolder = buildTimeHolder(commonParams);
-        PaymentParams paymentParams = searchQuery.getPaymentParams();
         ConditionParameterSource conditionParameterSource = new ConditionParameterSource();
         prepareInvoicePaymentsCondition(conditionParameterSource, commonParams, searchQuery.getInvoiceIds());
+        List<String> externalIds = new ArrayList<>();
+        if (searchQuery.isSetExternalIds()) {
+            externalIds.addAll(searchQuery.getExternalIds());
+        }
+        if (searchQuery.isSetExternalId()) {
+            externalIds.add(searchQuery.getExternalId());
+        }
+        PaymentParams paymentParams = searchQuery.getPaymentParams();
         preparePaymentsCondition(
                 conditionParameterSource,
                 paymentParams,
-                searchQuery.getExternalId(),
-                searchQuery.getExternalIds()
+                externalIds
         );
+        TimeHolder timeHolder = buildTimeHolder(commonParams);
         conditionParameterSource.addValue(PAYMENT_DATA.PAYMENT_CREATED_AT, timeHolder.getWhereTime(), LESS);
 
         SelectConditionStep<org.jooq.Record> conditionStep = getDslContext()
@@ -295,7 +305,6 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
 
     private ConditionParameterSource preparePaymentsCondition(ConditionParameterSource conditionParameterSource,
                                                               PaymentParams paymentParams,
-                                                              String externalId,
                                                               List<String> externalIds) {
         conditionParameterSource
                 .addValue(PAYMENT_DATA.PAYMENT_ID, paymentParams.getPaymentId(), EQUALS)
@@ -357,8 +366,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                         paymentParams.isSetPaymentAmountTo()
                                 ? paymentParams.getPaymentAmountTo()
                                 : null,
-                        LESS_OR_EQUAL)
-                .addValue(PAYMENT_DATA.EXTERNAL_ID, externalId, EQUALS);
+                        LESS_OR_EQUAL);
         if (!CollectionUtils.isEmpty(externalIds)) {
             conditionParameterSource
                     .addInConditionValue(PAYMENT_DATA.EXTERNAL_ID, externalIds);
