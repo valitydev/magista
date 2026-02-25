@@ -115,7 +115,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>magista-proto</artifactId>
-            <version>1.57-f3b4b14</version>
+            <version>1.58-2de1ebf</version>
         </dependency>
         <dependency>
             <groupId>dev.vality.geck</groupId>
