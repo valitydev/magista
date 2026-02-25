@@ -14,18 +14,17 @@ import org.springframework.test.context.jdbc.Sql;
 import java.time.Instant;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @PostgresqlSpringBootITest
-public class PaymentsSearchDaoImplTest {
+class PaymentsSearchDaoImplTest {
 
     @Autowired
     private SearchDaoImpl searchDao;
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
-    public void testPayments() {
+    void testPayments() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getCommonSearchQueryParams().setShopIds(List.of("SHOP_ID"));
         var payments = searchDao.getPayments(searchQuery);
@@ -34,7 +33,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
-    public void testPaymentAdditionalInfoWithInvoiceSearch() {
+    void testPaymentAdditionalInfoWithInvoiceSearch() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
                 .setPaymentRrn("43253")
@@ -46,7 +45,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
-    public void testPaymentExcludeField() {
+    void testPaymentExcludeField() {
         PaymentSearchQuery searchQuery = new PaymentSearchQuery()
                 .setCommonSearchQueryParams(new CommonSearchQueryParams()
                         .setPartyId("b9c3bf7f-f62a-4675-8489-2da7775024bb")
@@ -60,7 +59,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_amount_from_to.sql")
-    public void testPaymentFromTo() {
+    void testPaymentFromTo() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
                 .setPaymentAmountFrom(10000)
@@ -71,7 +70,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_with_provider_and_terminal_id.sql")
-    public void testPaymentSearchByTerminalId() {
+    void testPaymentSearchByTerminalId() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
                 .setPaymentTerminalId("120");
@@ -86,7 +85,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_with_provider_and_terminal_id.sql")
-    public void testPaymentSearchByProviderId() {
+    void testPaymentSearchByProviderId() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
                 .setPaymentProviderId("115");
@@ -101,7 +100,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_with_provider_and_terminal_id.sql")
-    public void testPaymentSearchByProviderAndTerminalId() {
+    void testPaymentSearchByProviderAndTerminalId() {
 
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
@@ -126,7 +125,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
-    public void testOrderByEventIdPayments() {
+    void testOrderByEventIdPayments() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         var payments = searchDao.getPayments(searchQuery);
         Instant instant = Instant.MAX;
@@ -139,7 +138,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_operation_timeout_search_data.sql")
-    public void testOperationTimeout() {
+    void testOperationTimeout() {
 
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
@@ -155,7 +154,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_with_holds_search_data.sql")
-    public void testHoldAndInstantFlow() {
+    void testHoldAndInstantFlow() {
 
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getCommonSearchQueryParams().setShopIds(List.of("SHOP_ID"));
@@ -198,7 +197,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_terminal_provider_search_data.sql")
-    public void testFindByPaymentMethodAndTerminalProvider() {
+    void testFindByPaymentMethodAndTerminalProvider() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams()
                 .setPaymentTool(PaymentToolType.payment_terminal)
@@ -212,7 +211,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_external_failure_search_data.sql")
-    public void testExternalFailure() {
+    void testExternalFailure() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams().setPaymentStatus(dev.vality.magista.InvoicePaymentStatus.failed);
         searchQuery.getCommonSearchQueryParams().setLimit(1);
@@ -225,7 +224,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_with_domain_revision_search_data.sql")
-    public void testSearchByPaymentDomainRevision() {
+    void testSearchByPaymentDomainRevision() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams().setPaymentDomainRevision(2);
         searchQuery.getCommonSearchQueryParams().setLimit(1);
@@ -254,7 +253,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/recurrent_payments_search_data.sql")
-    public void testRecurrentPayments() {
+    void testRecurrentPayments() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.setInvoiceIds(List.of("INVOICE_ID_1"));
         searchQuery.getPaymentParams().setPaymentId("PAYMENT_ID_1");
@@ -273,7 +272,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
-    public void testSearchByInvoiceIds() {
+    void testSearchByInvoiceIds() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.setInvoiceIds(List.of("INVOICE_ID_1", "INVOICE_ID_2"));
         var payments = searchDao.getPayments(searchQuery);
@@ -282,7 +281,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
-    public void testSearchByBankCardTokenProvider() {
+    void testSearchByBankCardTokenProvider() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams().setPaymentTokenProvider(new BankCardTokenServiceRef("applepay"));
         var payments = searchDao.getPayments(searchQuery);
@@ -291,7 +290,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
-    public void testSearchByBankCardPaymentSystem() {
+    void testSearchByBankCardPaymentSystem() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams().setPaymentSystem(new PaymentSystemRef("mastercard"));
         var payments = searchDao.getPayments(searchQuery);
@@ -301,7 +300,7 @@ public class PaymentsSearchDaoImplTest {
 
     @Test
     @Sql("classpath:data/sql/search/payment_external_failure_search_data.sql")
-    public void testSearchByErrorCodePaymentSystem() {
+    void testSearchByErrorCodePaymentSystem() {
         PaymentSearchQuery searchQuery = buildSearchQuery();
         searchQuery.getPaymentParams().setErrorMessage("test");
         var payments = searchDao.getPayments(searchQuery);
@@ -314,6 +313,16 @@ public class PaymentsSearchDaoImplTest {
         searchQuery.getPaymentParams().setErrorMessage("test.");
         payments = searchDao.getPayments(searchQuery);
         assertEquals(1, payments.size());
+    }
+
+    @Test
+    @Sql("classpath:data/sql/search/invoice_and_payment_search_data.sql")
+    void testSearchByExternalIds() {
+        PaymentSearchQuery searchQuery = buildSearchQuery();
+        searchQuery.getCommonSearchQueryParams().setPartyId("d45b2c40-4588-4fef-a233-f5eda759592c");
+        searchQuery.setExternalIds(List.of("EXTERNAL_ID_1", "EXTERNAL_ID_2"));
+        var payments = searchDao.getPayments(searchQuery);
+        assertEquals(2, payments.size());
     }
 
     private PaymentSearchQuery buildSearchQuery() {
