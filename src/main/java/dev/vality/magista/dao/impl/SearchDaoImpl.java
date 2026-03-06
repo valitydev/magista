@@ -196,7 +196,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                                 .addInConditionValue(CHARGEBACK_DATA.PARTY_SHOP_ID,
                                                         commonParams.getShopIds())
                                                 .addInConditionValue(CHARGEBACK_DATA.PROVIDER_ID,
-                                                        mapProviderIds(commonParams))
+                                                        commonParams.getProviderIds())
                                                 .addInConditionValue(
                                                         CHARGEBACK_DATA.INVOICE_ID,
                                                         chargebackSearchQuery.getInvoiceIds())
@@ -294,7 +294,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
         return new ConditionParameterSource()
                 .addValue(REFUND_DATA.PARTY_ID, commonParams.getPartyId(), EQUALS)
                 .addInConditionValue(REFUND_DATA.PARTY_SHOP_ID, commonParams.getShopIds())
-                .addInConditionValue(REFUND_DATA.PROVIDER_ID, mapProviderIds(commonParams))
+                .addInConditionValue(REFUND_DATA.PROVIDER_ID, , commonParams.getProviderIds())
                 .addInConditionValue(REFUND_DATA.INVOICE_ID, searchQuery.getInvoiceIds())
                 .addValue(REFUND_DATA.PAYMENT_ID, searchQuery.getPaymentId(), EQUALS)
                 .addValue(REFUND_DATA.REFUND_ID, searchQuery.getRefundId(), EQUALS)
@@ -414,18 +414,9 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                 : null,
                         EQUALS)
                 .addInConditionValue(PAYMENT_DATA.PARTY_SHOP_ID, commonParams.getShopIds())
-                .addInConditionValue(PAYMENT_DATA.PROVIDER_ID, mapProviderIds(commonParams))
+                .addInConditionValue(PAYMENT_DATA.PROVIDER_ID, commonParams.getProviderIds())
                 .addInConditionValue(PAYMENT_DATA.INVOICE_ID, invoiceIds);
         return paymentParameterSource;
-    }
-
-    private List<Integer> mapProviderIds(CommonSearchQueryParams commonParams) {
-        if (commonParams.getProviderIds() == null || commonParams.getProviderIds().isEmpty()) {
-            return null;
-        }
-        return commonParams.getProviderIds().stream()
-                .map(Integer::valueOf)
-                .collect(Collectors.toList());
     }
 
     private Condition buildInvoiceTemplateStatusCondition(InvoiceTemplateSearchQuery invoiceTemplateSearchQuery) {
