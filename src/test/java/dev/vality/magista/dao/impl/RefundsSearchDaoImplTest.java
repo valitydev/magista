@@ -47,6 +47,20 @@ public class RefundsSearchDaoImplTest {
         assertEquals(2, refunds.size());
     }
 
+    @Test
+    @Sql("classpath:data/sql/search/refund_search_with_provider_id_data.sql")
+    public void testSearchByProviderId() {
+        RefundSearchQuery refundSearchQuery = new RefundSearchQuery()
+                .setCommonSearchQueryParams(new CommonSearchQueryParams()
+                        .setPartyId("PARTY_ID_1")
+                        .setShopIds(List.of("SHOP_ID_1"))
+                        .setProviderIds(List.of(1))
+                        .setFromTime("2016-10-25T15:45:20Z")
+                        .setToTime("3018-10-25T18:10:10Z"));
+        refundSearchQuery.setInvoiceIds(List.of("INVOICE_ID_1", "INVOICE_ID_2", "INVOICE_ID"));
+        List<StatRefund> refunds = searchDao.getRefunds(refundSearchQuery);
+        assertEquals(1, refunds.size());
+    }
 
     private RefundSearchQuery buildRefundSearchQuery() {
         return new RefundSearchQuery()

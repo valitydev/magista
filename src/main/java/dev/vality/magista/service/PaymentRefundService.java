@@ -53,6 +53,7 @@ public class PaymentRefundService {
                                 paymentService.getPaymentData(refund.getInvoiceId(), refund.getPaymentId());
                         refund.setPartyId(paymentData.getPartyId().toString());
                         refund.setPartyShopId(paymentData.getPartyShopId());
+                        refund.setProviderId(paymentData.getProviderId());
                         if (refund.getRefundAmount() == null) {
                             refund.setRefundAmount(paymentData.getPaymentAmount());
                             refund.setRefundCurrencyCode(paymentData.getPaymentCurrencyCode());

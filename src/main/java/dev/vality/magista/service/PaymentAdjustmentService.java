@@ -55,6 +55,7 @@ public class PaymentAdjustmentService {
                                 paymentService.getPaymentData(adjustment.getInvoiceId(), adjustment.getPaymentId());
                         adjustment.setPartyId(paymentData.getPartyId().toString());
                         adjustment.setPartyShopId(paymentData.getPartyShopId());
+                        adjustment.setProviderId(paymentData.getProviderId());
                     } else {
                         AdjustmentData previousAdjustmentEvent = adjustmentDataCacheMap.computeIfAbsent(
                                 adjustment.getInvoiceId() + adjustment.getPaymentId() +
