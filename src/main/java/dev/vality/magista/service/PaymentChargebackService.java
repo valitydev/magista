@@ -54,6 +54,7 @@ public class PaymentChargebackService {
                                 paymentService.getPaymentData(chargeback.getInvoiceId(), chargeback.getPaymentId());
                         chargeback.setPartyId(paymentData.getPartyId().toString());
                         chargeback.setPartyShopId(paymentData.getPartyShopId());
+                        chargeback.setProviderId(paymentData.getProviderId());
                         if (chargeback.getChargebackStage() == null) {
                             chargeback.setChargebackStage(ChargebackStage.chargeback);
                         }

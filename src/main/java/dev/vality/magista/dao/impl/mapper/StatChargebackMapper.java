@@ -1,6 +1,7 @@
 package dev.vality.magista.dao.impl.mapper;
 
 import dev.vality.damsel.base.Content;
+import dev.vality.damsel.domain.ProviderRef;
 import dev.vality.geck.common.util.TypeUtil;
 import dev.vality.magista.StatChargeback;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,6 +23,7 @@ public class StatChargebackMapper implements RowMapper<StatChargeback> {
                 .setExternalId(rs.getString(CHARGEBACK_DATA.EXTERNAL_ID.getName()))
                 .setPartyId(rs.getString(CHARGEBACK_DATA.PARTY_ID.getName()))
                 .setShopId(rs.getString(CHARGEBACK_DATA.PARTY_SHOP_ID.getName()))
+                .setProviderId(initProviderRef(rs))
                 .setChargebackStatus(MapperHelper.toInvoicePaymentChargebackStatus(rs))
                 .setCreatedAt(TypeUtil.temporalToString(
                         rs.getObject(CHARGEBACK_DATA.CHARGEBACK_CREATED_AT.getName(), LocalDateTime.class))
@@ -49,5 +51,9 @@ public class StatChargebackMapper implements RowMapper<StatChargeback> {
             chargeback.setContent(new Content().setData(content).setType(""));
         }
         return chargeback;
+    }
+
+    private static ProviderRef initProviderRef(ResultSet rs) throws SQLException {
+        return new ProviderRef(rs.getInt(CHARGEBACK_DATA.PROVIDER_ID.getName()));
     }
 }
