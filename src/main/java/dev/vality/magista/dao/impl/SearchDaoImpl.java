@@ -294,7 +294,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
         return new ConditionParameterSource()
                 .addValue(REFUND_DATA.PARTY_ID, commonParams.getPartyId(), EQUALS)
                 .addInConditionValue(REFUND_DATA.PARTY_SHOP_ID, commonParams.getShopIds())
-                .addInConditionValue(REFUND_DATA.PROVIDER_ID, , commonParams.getProviderIds())
+                .addInConditionValue(REFUND_DATA.PROVIDER_ID, commonParams.getProviderIds())
                 .addInConditionValue(REFUND_DATA.INVOICE_ID, searchQuery.getInvoiceIds())
                 .addValue(REFUND_DATA.PAYMENT_ID, searchQuery.getPaymentId(), EQUALS)
                 .addValue(REFUND_DATA.REFUND_ID, searchQuery.getRefundId(), EQUALS)
