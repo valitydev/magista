@@ -68,4 +68,20 @@ class ChargebackSearchDaoImplTest {
 
 
     }
+
+    @Test
+    @Sql("classpath:data/sql/search/chargeback_search_with_provider_id_data.sql")
+    void chargebackSearchWithProviderIdTest() {
+        ChargebackSearchQuery chargebackSearchQuery = new ChargebackSearchQuery()
+                .setCommonSearchQueryParams(new CommonSearchQueryParams()
+                        .setPartyId("party_id_1")
+                        .setShopIds(List.of("party_shop_id_1"))
+                        .setProviderIds(List.of(1))
+                        .setFromTime("2016-10-25T15:45:20Z")
+                        .setToTime("3018-10-25T18:10:10Z"));
+        List<StatChargeback> chargebacks = searchDao.getChargebacks(chargebackSearchQuery);
+        assertEquals(1, chargebacks.size());
+        assertEquals(1, chargebacks.get(0).getProviderId().getId());
+
+    }
 }

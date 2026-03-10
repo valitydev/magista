@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static dev.vality.geck.common.util.TypeUtil.toEnumField;
 import static dev.vality.geck.common.util.TypeUtil.toEnumFields;
@@ -194,6 +195,8 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                                 .addValue(CHARGEBACK_DATA.PARTY_ID, commonParams.getPartyId(), EQUALS)
                                                 .addInConditionValue(CHARGEBACK_DATA.PARTY_SHOP_ID,
                                                         commonParams.getShopIds())
+                                                .addInConditionValue(CHARGEBACK_DATA.PROVIDER_ID,
+                                                        commonParams.getProviderIds())
                                                 .addInConditionValue(
                                                         CHARGEBACK_DATA.INVOICE_ID,
                                                         chargebackSearchQuery.getInvoiceIds())
@@ -291,6 +294,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
         return new ConditionParameterSource()
                 .addValue(REFUND_DATA.PARTY_ID, commonParams.getPartyId(), EQUALS)
                 .addInConditionValue(REFUND_DATA.PARTY_SHOP_ID, commonParams.getShopIds())
+                .addInConditionValue(REFUND_DATA.PROVIDER_ID, commonParams.getProviderIds())
                 .addInConditionValue(REFUND_DATA.INVOICE_ID, searchQuery.getInvoiceIds())
                 .addValue(REFUND_DATA.PAYMENT_ID, searchQuery.getPaymentId(), EQUALS)
                 .addValue(REFUND_DATA.REFUND_ID, searchQuery.getRefundId(), EQUALS)
@@ -410,6 +414,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                                 : null,
                         EQUALS)
                 .addInConditionValue(PAYMENT_DATA.PARTY_SHOP_ID, commonParams.getShopIds())
+                .addInConditionValue(PAYMENT_DATA.PROVIDER_ID, commonParams.getProviderIds())
                 .addInConditionValue(PAYMENT_DATA.INVOICE_ID, invoiceIds);
         return paymentParameterSource;
     }
@@ -424,7 +429,7 @@ public class SearchDaoImpl extends AbstractDao implements SearchDao {
                 case deleted -> invoiceTemplateStatus = INVOICE_TEMPLATE.EVENT_TYPE.eq(
                         InvoiceTemplateEventType.INVOICE_TEMPLATE_DELETED);
                 default -> throw new IllegalArgumentException("Unknown enum type " +
-                        invoiceTemplateSearchQuery.getInvoiceTemplateStatus());
+                                                              invoiceTemplateSearchQuery.getInvoiceTemplateStatus());
             }
         }
         return invoiceTemplateStatus;
