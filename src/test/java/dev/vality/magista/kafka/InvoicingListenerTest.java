@@ -6,13 +6,14 @@ import dev.vality.machinegun.eventsink.SinkEvent;
 import dev.vality.magista.config.KafkaPostgresqlSpringBootITest;
 import dev.vality.magista.converter.SourceEventParser;
 import dev.vality.magista.service.HandlerManager;
-import dev.vality.testcontainers.annotations.kafka.config.KafkaProducer;
-import org.apache.thrift.TBase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
+import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDateTime;
@@ -36,13 +37,21 @@ public class InvoicingListenerTest {
     private SourceEventParser eventParser;
 
     @Autowired
-    private KafkaProducer<TBase<?, ?>> testThriftKafkaProducer;
+    private EmbeddedKafkaBroker embeddedKafkaBroker;
+
+    @Autowired
+    private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
     @Captor
     private ArgumentCaptor<MachineEvent> arg;
 
+    @BeforeEach
+    void waitForKafkaListenersAssignment() {
+        KafkaTestSupport.waitForAssignments(kafkaListenerEndpointRegistry, embeddedKafkaBroker);
+    }
+
     @Test
-    public void shouldInvoicingSinkEventListen() {
+    public void shouldInvoicingSinkEventListen() throws Exception {
         var message = new MachineEvent();
         message.setCreatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         message.setEventId(1L);
@@ -54,7 +63,7 @@ public class InvoicingListenerTest {
         var sinkEvent = new SinkEvent();
         sinkEvent.setEvent(message);
         when(eventParser.parseEvent(any())).thenReturn(EventPayload.invoice_changes(List.of()));
-        testThriftKafkaProducer.send(invoicingTopicName, sinkEvent);
+        KafkaTestSupport.send(embeddedKafkaBroker, invoicingTopicName, sinkEvent);
         verify(eventParser, timeout(5000).times(1)).parseEvent(arg.capture());
         assertThat(arg.getValue())
                 .isEqualTo(message);
